@@ -1299,6 +1299,76 @@ class VariantSelects extends HTMLElement {
     this.variantData = this.variantData || JSON.parse(this.querySelector('[type="application/json"]').textContent);
     return this.variantData;
   }
+
+  mediaIdFromGalleryKey(mediaKey) {
+    const id = Number(String(mediaKey).split('-').pop());
+    return Number.isFinite(id) ? id : null;
+  }
+
+  variantMediaId(variant) {
+    if (variant.featured_media && variant.featured_media.id) return Number(variant.featured_media.id);
+    return null;
+  }
+
+  optionOverlap(variant, currentOptions) {
+    const options = variant.options || [variant.option1, variant.option2, variant.option3].filter((option) => option != null);
+    return options.reduce((count, option, index) => count + (currentOptions[index] === option ? 1 : 0), 0);
+  }
+
+  selectVariantForMedia(mediaKey) {
+    const mediaId = this.mediaIdFromGalleryKey(mediaKey);
+    if (!mediaId) return false;
+
+    const matches = this.getVariantData().filter((variant) => this.variantMediaId(variant) === mediaId);
+    if (!matches.length) return false;
+
+    this.updateOptions();
+    const currentOptions = this.options || [];
+    const chosen = matches.slice().sort((a, b) => {
+      const scoreDiff = this.optionOverlap(b, currentOptions) - this.optionOverlap(a, currentOptions);
+      if (scoreDiff !== 0) return scoreDiff;
+      if (a.available !== b.available) return a.available ? -1 : 1;
+      return 0;
+    })[0];
+
+    if (!chosen) return false;
+
+    const chosenOptions = chosen.options || [chosen.option1, chosen.option2, chosen.option3].filter((option) => option != null);
+    const alreadySelected = chosenOptions.every((option, index) => currentOptions[index] === option);
+    if (alreadySelected) return false;
+
+    return this.applyVariantOptions(chosenOptions);
+  }
+
+  applyVariantOptions(optionValues) {
+    const controls = Array.from(this.querySelectorAll('select, fieldset'));
+    const changed = [];
+
+    optionValues.forEach((optionValue, index) => {
+      const control = controls[index];
+      if (!control || optionValue == null) return;
+
+      if (control.tagName === 'SELECT') {
+        if (control.value !== optionValue) {
+          control.value = optionValue;
+          changed.push(control);
+        }
+        return;
+      }
+
+      const radio = Array.from(control.querySelectorAll('input[type="radio"]')).find((input) => input.value === optionValue);
+      if (radio && !radio.checked) {
+        radio.checked = true;
+        changed.push(radio);
+      }
+    });
+
+    if (!changed.length) return false;
+
+    changed.forEach((input) => this.updateSelectedSwatchValue({ target: input }));
+    changed[changed.length - 1].dispatchEvent(new Event('change', { bubbles: true }));
+    return true;
+  }
 }
 
 customElements.define('variant-selects', VariantSelects);

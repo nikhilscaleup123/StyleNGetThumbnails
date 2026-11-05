@@ -14,9 +14,11 @@ if (!customElements.get('media-gallery')) {
 
         this.elements.viewer.addEventListener('slideChanged', debounce(this.onSlideChanged.bind(this), 500));
         this.elements.thumbnails.querySelectorAll('[data-target]').forEach((mediaToSwitch) => {
-          mediaToSwitch
-            .querySelector('button')
-            .addEventListener('click', this.setActiveMedia.bind(this, mediaToSwitch.dataset.target));
+          const button = mediaToSwitch.querySelector('button');
+          if (!button) return;
+          button.addEventListener('click', () => {
+            this.onThumbnailClick(mediaToSwitch.dataset.target);
+          });
         });
         if (this.dataset.desktopLayout.includes('thumbnail') && this.mql.matches) this.removeListSemantic();
 
@@ -52,6 +54,15 @@ if (!customElements.get('media-gallery')) {
         const width = Math.round(activeMedia.getBoundingClientRect().width);
         if (width > 0) {
           this.style.setProperty('--gallery-media-width', `${width}px`);
+        }
+      }
+
+      onThumbnailClick(mediaId) {
+        this.setActiveMedia(mediaId, true);
+        const sectionId = this.id.replace(/^MediaGallery-/, '');
+        const variantPicker = document.getElementById(`variant-selects-${sectionId}`);
+        if (variantPicker && typeof variantPicker.selectVariantForMedia === 'function') {
+          variantPicker.selectVariantForMedia(mediaId);
         }
       }
 
