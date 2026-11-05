@@ -1,0 +1,79 @@
+{% comment %}
+  AJAX-only section: rendered by the Product Recommendations API for the cart drawer.
+  Do not add this section to JSON templates.
+{% endcomment %}
+
+{%- if recommendations.performed and recommendations.products_count > 0 -%}
+  {%- liquid
+    if recommendations.intent == 'complementary'
+      assign heading = settings.cart_upsell_heading | default: 'Complete your look'
+      assign intent_class = 'upsell'
+    else
+      assign heading = settings.cart_cross_sell_heading | default: 'You might also like'
+      assign intent_class = 'cross-sell'
+    endif
+  -%}
+  <div class="cart-drawer-recs cart-drawer-recs--{{ intent_class }}" data-intent="{{ recommendations.intent }}">
+    <div class="cart-drawer-recs__header">
+      <h3 class="cart-drawer-recs__heading">{{ heading | escape }}</h3>
+      <p class="cart-drawer-recs__subheading">{{ 'sections.cart.recommendations_subheading' | t }}</p>
+    </div>
+    <ul class="cart-drawer-recs__list list-unstyled" role="list">
+      {%- for product in recommendations.products -%}
+        {%- liquid
+          assign variant = product.selected_or_first_available_variant
+        -%}
+        <li class="cart-drawer-recs__item">
+          <article class="cart-drawer-rec-card">
+            <a
+              href="{{ product.url }}"
+              class="cart-drawer-rec-card__media"
+              tabindex="-1"
+              aria-hidden="true"
+            >
+              {%- if product.featured_media -%}
+                {{
+                  product.featured_media
+                  | image_url: width: 220
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '110, 160, 220',
+                    sizes: '100px',
+                    class: 'cart-drawer-rec-card__image',
+                    alt: ''
+                }}
+              {%- else -%}
+                {{ 'product-1' | placeholder_svg_tag: 'cart-drawer-rec-card__image placeholder' }}
+              {%- endif -%}
+            </a>
+            <div class="cart-drawer-rec-card__content">
+              <a href="{{ product.url }}" class="cart-drawer-rec-card__title link">
+                {{ product.title | escape }}
+              </a>
+              {% render 'price', product: product, price_class: 'cart-drawer-rec-card__price', show_compare_at_price: true %}
+              {%- if variant.available -%}
+                <a
+                  href="{{ product.url }}"
+                  class="cart-drawer-rec-card__add cart-drawer-rec-card__add--secondary"
+                  aria-label="{{ 'sections.cart.view_recommendation' | t: title: product.title }}"
+                >
+                  <span class="cart-drawer-rec-card__add-label">
+                    {{- 'products.product.choose_options' | t -}}
+                    <span aria-hidden="true"> &gt;</span>
+                  </span>
+                </a>
+              {%- endif -%}
+            </div>
+          </article>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Cart recommendations",
+  "settings": []
+}
+{% endschema %}

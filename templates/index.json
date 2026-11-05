@@ -1,0 +1,548 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_banner": {
+      "type": "image-banner",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "disabled": true,
+          "settings": {
+            "heading": "YOUR STYLE, YOUR WAY!",
+            "heading_size": "h0"
+          }
+        },
+        "button": {
+          "type": "buttons",
+          "disabled": true,
+          "settings": {
+            "button_label_1": "SHOP NOW",
+            "button_link_1": "shopify://collections/all",
+            "button_style_secondary_1": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "button"
+      ],
+      "settings": {
+        "image_overlay_opacity": 0,
+        "image_height": "large",
+        "desktop_content_position": "bottom-center",
+        "show_text_box": false,
+        "desktop_content_alignment": "center",
+        "color_scheme": "scheme-3",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "stack_images_on_mobile": false,
+        "show_text_below": false
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "disabled": true,
+      "settings": {
+        "title": "Shop By Category",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "all",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "scheme-1",
+        "image_ratio": "adapt",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 44,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection_HndPpT": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Featured Products",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "featured-products",
+        "products_to_show": 2,
+        "columns_desktop": 2,
+        "full_width": false,
+        "show_view_all": false,
+        "view_all_style": "solid",
+        "enable_desktop_slider": false,
+        "color_scheme": "",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 20,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection_MVW4HG": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "New Arrivals",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "new-arrivals-1",
+        "products_to_show": 8,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "outline",
+        "enable_desktop_slider": false,
+        "color_scheme": "",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "collection_list_MU9YBX": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_xHxenb": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "accessories"
+          }
+        },
+        "featured_collection_Lmntjw": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "caps-hats"
+          }
+        },
+        "featured_collection_D7mALr": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "drinkware"
+          }
+        },
+        "featured_collection_FEGLTQ": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "games-puzzles"
+          }
+        },
+        "featured_collection_naefXn": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "clothing"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_xHxenb",
+        "featured_collection_Lmntjw",
+        "featured_collection_D7mALr",
+        "featured_collection_FEGLTQ",
+        "featured_collection_naefXn"
+      ],
+      "custom_css": [
+        ".title-wrapper-with-link {text-align: center !important;}"
+      ],
+      "settings": {
+        "title": "SHOP BY CATEGORY",
+        "heading_size": "h2",
+        "image_ratio": "square",
+        "columns_desktop": 5,
+        "color_scheme": "",
+        "show_view_all": false,
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_collection_FbPgzm": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "BEST SELLERS",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": false,
+        "description_style": "body",
+        "collection": "best-sellers",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "full_width": false,
+        "show_view_all": true,
+        "view_all_style": "outline",
+        "enable_desktop_slider": false,
+        "color_scheme": "",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": false,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "none",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_product_nxcn39": {
+      "type": "featured-product",
+      "blocks": {
+        "text_jhXMEE": {
+          "type": "text",
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_h8JNqE": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_pbVhtj": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_RkkcbF": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle",
+            "size_label": "Size:",
+            "size_hint": "Select size",
+            "enable_size_guide": true,
+            "size_guide_label": "Size Chart",
+            "show_size_guide_icon": true,
+            "size_guide_page": ""
+          }
+        },
+        "quantity_selector_Y6xJBH": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_rR7fmL": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "share_7NwN8D": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "text_jhXMEE",
+        "title_h8JNqE",
+        "price_pbVhtj",
+        "variant_picker_RkkcbF",
+        "quantity_selector_Y6xJBH",
+        "buy_buttons_rR7fmL",
+        "share_7NwN8D"
+      ],
+      "settings": {
+        "product": "tote-bag",
+        "color_scheme": "",
+        "secondary_background": false,
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "left",
+        "image_zoom": "hover",
+        "gallery_layout": "thumbnail_slider",
+        "mobile_thumbnails": "show",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_product_3eTWg7": {
+      "type": "featured-product",
+      "blocks": {
+        "text_zhaKdG": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "{{ section.settings.product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title_EVzkWz": {
+          "type": "title",
+          "settings": {
+            "heading_size": "h1"
+          }
+        },
+        "price_K83HVD": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker_GmwPpz": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle",
+            "size_label": "Size:",
+            "size_hint": "Select size",
+            "enable_size_guide": true,
+            "size_guide_label": "Size Chart",
+            "show_size_guide_icon": true,
+            "size_guide_page": ""
+          }
+        },
+        "quantity_selector_9MVhnF": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons_HTfNqP": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "share_EBjVTK": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "text_zhaKdG",
+        "title_EVzkWz",
+        "price_K83HVD",
+        "variant_picker_GmwPpz",
+        "quantity_selector_9MVhnF",
+        "buy_buttons_HTfNqP",
+        "share_EBjVTK"
+      ],
+      "disabled": true,
+      "settings": {
+        "product": "personalized-name-cotton-cap-for-men-women",
+        "color_scheme": "",
+        "secondary_background": true,
+        "media_size": "small",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "media_position": "left",
+        "image_zoom": "hover",
+        "gallery_layout": "thumbnail_slider",
+        "mobile_thumbnails": "show",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "rich_text_rGqbRA": {
+      "type": "rich-text",
+      "blocks": {
+        "heading_YX8Qx6": {
+          "type": "heading",
+          "settings": {
+            "heading": "Find perfect gift items",
+            "heading_size": "h1"
+          }
+        },
+        "text_eDndkg": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Discover the perfect personalized gifts for every occasion. From custom mugs to jigsaw puzzles, we've got your gifting solution covered.</p>"
+          }
+        },
+        "button_bihVMn": {
+          "type": "button",
+          "disabled": true,
+          "settings": {
+            "button_label": "Button label",
+            "button_link": "",
+            "button_style_secondary": false,
+            "button_label_2": "",
+            "button_link_2": "",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading_YX8Qx6",
+        "text_eDndkg",
+        "button_bihVMn"
+      ],
+      "disabled": true,
+      "custom_css": [
+        ".rich-text {background: #c3c3c3;}"
+      ],
+      "settings": {
+        "desktop_content_position": "center",
+        "content_alignment": "center",
+        "color_scheme": "",
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    },
+    "image_with_text_WpfRTf": {
+      "type": "image-with-text",
+      "blocks": {
+        "text_a98jd9": {
+          "type": "text",
+          "settings": {
+            "text": "<p>At Style N Get, we are dedicated to offering unique, high-quality personalized products that enhance your lifestyle, simplify your routines, and make perfect gifts, bringing joy and convenience to your everyday life.</p>",
+            "mobile_text": "<p>At Style N Get, we make high-quality personalized products you can trust — for everyday life and gifts that last.</p>",
+            "text_style": "body"
+          }
+        }
+      },
+      "block_order": [
+        "text_a98jd9"
+      ],
+      "custom_css": [
+        "div {border-radius: 10px;}"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/bottom-pic.png",
+        "height": "adapt",
+        "desktop_image_width": "medium",
+        "layout": "text_first",
+        "desktop_content_position": "middle",
+        "desktop_content_alignment": "center",
+        "content_layout": "overlap",
+        "section_color_scheme": "",
+        "color_scheme": "scheme-4",
+        "image_behavior": "none",
+        "mobile_content_alignment": "center",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "multicolumn_U7PPme": {
+      "type": "multicolumn",
+      "blocks": {
+        "column_WQzEze": {
+          "type": "column",
+          "settings": {
+            "title": "Harshita",
+            "text": "<p>⭐️⭐️⭐️⭐️⭐️</p><p>Style N Get is fantastic! I received my personalized item exactly as I wanted it. The product quality is outstanding, and the customer service was exceptional. Highly recommended! ❤️</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_Yztf6X": {
+          "type": "column",
+          "settings": {
+            "title": "Kanchan",
+            "text": "<p>⭐️⭐️⭐️⭐️⭐️</p><p>The customer support is really great. They helped me get my perfect personalized gift! I'm really glad — highly recommended. 🤩</p>",
+            "link_label": "",
+            "link": ""
+          }
+        },
+        "column_WwWDAV": {
+          "type": "column",
+          "settings": {
+            "title": "Vivek",
+            "text": "<p>⭐️⭐️⭐️⭐️⭐️</p><p>Awesome product quality! Great experience using the website to create and order personalized products. Also, great support! Keep adding new products 😎👌🔥</p>",
+            "link_label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "column_WQzEze",
+        "column_Yztf6X",
+        "column_WwWDAV"
+      ],
+      "settings": {
+        "title": "What Our Customers Are Saying",
+        "heading_size": "h2",
+        "image_width": "full",
+        "image_ratio": "portrait",
+        "columns_desktop": 3,
+        "column_alignment": "center",
+        "background_style": "primary",
+        "button_label": "",
+        "button_link": "",
+        "color_scheme": "scheme-2",
+        "columns_mobile": "1",
+        "swipe_on_mobile": false,
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    },
+    "1791956072ddd28da3": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "179266086889a1afdb": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "1792661530c2977280": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "image_banner",
+    "featured_collection",
+    "featured_collection_HndPpT",
+    "featured_collection_MVW4HG",
+    "collection_list_MU9YBX",
+    "featured_collection_FbPgzm",
+    "featured_product_nxcn39",
+    "featured_product_3eTWg7",
+    "rich_text_rGqbRA",
+    "image_with_text_WpfRTf",
+    "multicolumn_U7PPme",
+    "1791956072ddd28da3",
+    "179266086889a1afdb",
+    "1792661530c2977280"
+  ]
+}

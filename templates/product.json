@@ -1,0 +1,170 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "custom_liquid_bAhwaG": {
+          "type": "custom_liquid",
+          "settings": {
+            "custom_liquid": "{% if product.tags contains 'Mobile-Cover-Offer' %}\n<style>\n@keyframes offerPop {\n  0%,100% { transform:scale(1); }\n  50% { transform:scale(1.05); }\n}\n.offer-badge {\n  display:inline-flex;\n  align-items:center;\n  gap:4px;\n  background:#e5f7eb;\n  color:#13743b;\n  padding:6px 10px;\n  border-radius:20px;\n  font-size:12px;\n  font-weight:800;\n  animation:offerPop 2s ease-in-out infinite;\n}\n@media (prefers-reduced-motion:reduce) {\n  .offer-badge { animation:none; }\n}\n</style>\n\n<div style=\"display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:12px 0;\">\n  <span class=\"offer-badge\">🎉 ₹50 OFF</span>\n  <span style=\"font-size:14px;color:#222;\">\n    Now <strong style=\"font-size:19px;color:#13743b;\">₹449</strong>\n    <s style=\"color:#888;font-size:13px;\">₹499</s>\n  </span>\n  <span style=\"font-size:12px;font-weight:600;color:#13743b;\">\n    You save ₹50! ❤️\n  </span>\n</div>\n{% endif %}"
+          }
+        },
+        "vendor": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "text": "{{ product.vendor }}",
+            "text_style": "uppercase"
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "judge_me_reviews_preview_badge_ipDF47": {
+          "type": "shopify://apps/judge-me-reviews/blocks/preview_badge/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "disabled": true,
+          "settings": {}
+        },
+        "text_Pz4qWG": {
+          "type": "text",
+          "settings": {
+            "text": "&nbsp;INCLUDING ALL TAXES AND SHIPPING CHARGES.",
+            "text_style": "uppercase"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "picker_type": "button",
+            "swatch_shape": "circle",
+            "size_label": "Size:",
+            "size_hint": "Select size",
+            "enable_size_guide": true,
+            "size_guide_label": "Size Chart",
+            "show_size_guide_icon": true,
+            "size_guide_page": "size-chart"
+          }
+        },
+        "quantity_selector": {
+          "type": "quantity_selector",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_gift_card_recipient": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+            "heading": "Product Description",
+            "show_shipping": true,
+            "shipping_heading": "Shipping & Returns",
+            "shipping_content": "",
+            "shipping_page": "",
+            "show_care": true,
+            "care_heading": "Care Instructions",
+            "care_content": "",
+            "care_page": ""
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "custom_liquid_bAhwaG",
+        "vendor",
+        "title",
+        "price",
+        "judge_me_reviews_preview_badge_ipDF47",
+        "text_Pz4qWG",
+        "variant_picker",
+        "quantity_selector",
+        "buy_buttons",
+        "description",
+        "share"
+      ],
+      "custom_css": [
+        "#scaleup-product-button {font-size: 1.55rem; font-weight: 700;}"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "color_scheme": "scheme-1",
+        "media_size": "medium",
+        "constrain_to_viewport": true,
+        "media_fit": "contain",
+        "gallery_layout": "thumbnail_slider",
+        "media_position": "left",
+        "image_zoom": "hover",
+        "mobile_thumbnails": "show",
+        "hide_variants": false,
+        "enable_video_looping": false,
+        "padding_top": 36,
+        "padding_bottom": 12
+      }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {
+        "heading": "You may also like",
+        "heading_size": "h2",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "columns_mobile": "2",
+        "padding_top": 36,
+        "padding_bottom": 28
+      }
+    },
+    "1718526596ea7ef4e5": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_review_widget_BwpHQK": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "sample_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "empty_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_review_widget_BwpHQK"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "related-products",
+    "1718526596ea7ef4e5"
+  ]
+}

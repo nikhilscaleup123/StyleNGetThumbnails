@@ -1,0 +1,22 @@
+/* Mobile-only. Keeps Judge.me slide width in pixels so autoplay and swipe still line up. */
+
+@media screen and (max-width: 749px) {
+  .jdgm-widget.jdgm-cards-carousel {
+    --card-width: 260px;
+    --visible-cards: 1;
+  }
+
+  .jdgm-widget.jdgm-cards-carousel .jdgm-title {
+    font-size: 26px;
+    line-height: 1.25;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .jdgm-widget.jdgm-cards-carousel .jdgm-text p,
+  .jdgm-widget.jdgm-cards-carousel .jdgm-reviewer-name,
+  .jdgm-widget.jdgm-cards-carousel .jdgm-product-name,
+  .jdgm-widget.jdgm-cards-carousel .jdgm-product-name a {
+    max-width: 100%;
+  }
+}

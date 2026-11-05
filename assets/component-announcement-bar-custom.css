@@ -1,0 +1,143 @@
+/* Premium announcement bar — spacing, type, alignment only */
+
+.announcement-bar-section {
+  --announcement-bg: #000000;
+  --announcement-text: #ffffff;
+  --announcement-icon: #eab308;
+  --announcement-divider: rgba(255, 255, 255, 0.25);
+  --announcement-font: var(--font-body-family);
+  --announcement-height: 4rem; /* ~40px */
+}
+
+.announcement-bar-section .utility-bar {
+  background-color: var(--announcement-bg);
+  min-height: var(--announcement-height);
+}
+
+.announcement-bar-section .utility-bar.color-scheme-1,
+.announcement-bar-section .utility-bar.color-scheme-4 {
+  background-color: var(--announcement-bg);
+}
+
+.announcement-bar-section .utility-bar--bottom-border {
+  border-bottom-color: var(--announcement-divider);
+}
+
+.announcement-bar-section .utility-bar__grid.page-width {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.announcement-bar-section .announcement-bar,
+.announcement-bar-section .announcement-bar__announcement,
+.announcement-bar-section .announcement-bar-slider,
+.announcement-bar-section .announcement-bar__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--announcement-height);
+}
+
+.announcement-bar-section .announcement-bar__message {
+  font-family: var(--announcement-font);
+  color: var(--announcement-text);
+  font-size: 1.4rem; /* 14px */
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+  padding: 0 1.6rem;
+  margin: 0;
+  min-height: var(--announcement-height);
+  height: var(--announcement-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem; /* 8–10px between icon and text */
+  text-align: center;
+}
+
+.announcement-bar-section .announcement-bar__text {
+  color: var(--announcement-text);
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.announcement-bar-section .announcement-bar__icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.8rem;
+  height: 1.8rem;
+  color: var(--announcement-icon);
+  line-height: 0;
+}
+
+.announcement-bar-section .announcement-bar__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.announcement-bar-section .announcement-bar__link {
+  color: var(--announcement-text);
+  width: 100%;
+}
+
+.announcement-bar-section .announcement-bar__link:hover {
+  color: var(--announcement-text);
+}
+
+.announcement-bar-section .announcement-bar__link .icon-arrow {
+  color: var(--announcement-text);
+  flex-shrink: 0;
+}
+
+.announcement-bar-section .announcement-bar .slider-button {
+  color: var(--announcement-text);
+  min-width: 4rem;
+  height: var(--announcement-height);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: opacity 0.25s ease;
+}
+
+.announcement-bar-section .announcement-bar .slider-button:hover {
+  opacity: 0.75;
+}
+
+.announcement-bar-section .announcement-bar .slider-button .icon {
+  color: var(--announcement-text);
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.announcement-bar-section .announcement-bar .slider-button--prev {
+  margin-left: 0;
+}
+
+.announcement-bar-section .announcement-bar .slider-button--next {
+  margin-right: 0;
+}
+
+.announcement-bar-section .utility-bar__grid .announcement-bar-slider {
+  width: 100%;
+  align-items: center;
+}
+
+@media screen and (max-width: 989px) {
+  .announcement-bar-section .announcement-bar__message {
+    font-size: 1.3rem;
+    padding: 0 1.2rem;
+    gap: 0.8rem;
+  }
+
+  .announcement-bar-section .announcement-bar .slider-button {
+    min-width: 3.6rem;
+  }
+}

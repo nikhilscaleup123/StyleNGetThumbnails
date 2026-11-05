@@ -1,0 +1,143 @@
+{% comment %}
+  Renders product badges for cards and product pages.
+
+  Custom badges come from:
+  - Product metafield: custom.badge or theme.badge (single line text)
+  - Product tags with prefix: badge:Most Wished, badge:Exclusive, badge:Just In,
+    badge:Selling Fast, badge:On Sale
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+  - section_id: {String} Section ID for unique badge element IDs (required)
+  - badge_id_prefix: {String} Prefix for badge IDs (optional)
+  - placement: {String} 'card' (default) or 'title'
+      - card: sold out, custom badge, or On Sale fallback
+      - title: merchandising badges only (not On Sale / Sold Out) — for product page title
+
+  Usage:
+  {% render 'product-card-badges', product: product, section_id: section.id, placement: 'title' %}
+{% endcomment %}
+{%- liquid
+  assign badge_prefix = badge_id_prefix | default: 'Badge'
+  assign badge_placement = placement | default: 'card'
+  assign custom_badge_label = blank
+
+  if product.metafields.custom.badge != blank
+    assign custom_badge_label = product.metafields.custom.badge.value | default: product.metafields.custom.badge | strip
+  elsif product.metafields.theme.badge != blank
+    assign custom_badge_label = product.metafields.theme.badge.value | default: product.metafields.theme.badge | strip
+  else
+    for tag in product.tags
+      assign tag_down = tag | downcase | strip
+      if tag_down contains 'badge:'
+        assign custom_badge_label = tag | split: ':' | last | strip
+        break
+      endif
+    endfor
+  endif
+
+  assign custom_badge_handle = custom_badge_label | handleize
+  assign is_sale_type_badge = false
+  if custom_badge_handle == 'on-sale' or custom_badge_handle == 'sale' or custom_badge_handle == 'onsale'
+    assign is_sale_type_badge = true
+  endif
+
+  assign show_sale = false
+  if product.available and product.compare_at_price > product.price
+    assign show_sale = true
+  endif
+
+  if badge_placement == 'card' and custom_badge_label == blank and show_sale
+    assign custom_badge_label = 'On Sale'
+    assign custom_badge_handle = 'on-sale'
+    assign is_sale_type_badge = true
+  endif
+-%}
+
+{%- if badge_placement == 'title' -%}
+  {%- if custom_badge_label != blank and is_sale_type_badge == false -%}
+    <div class="product__title-badge">
+      <span
+        id="{{ badge_prefix }}-{{ section_id }}-{{ product.id }}"
+        class="badge badge--custom badge--{{ custom_badge_handle }} color-{{ settings.custom_badge_color_scheme }}"
+      >
+        <span class="badge__icon" aria-hidden="true">
+          {%- case custom_badge_handle -%}
+            {%- when 'most-wished', 'most-wish', 'bestseller', 'best-seller' -%}
+              <svg class="icon icon-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
+                <path d="M2.5 11.5c1.2-2.8 2.6-4.2 4.2-5.1.4 1.6 1.4 2.7 3 3.3-1.7.9-3.5 2.5-4.5 5.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M9.2 3.2l.5 1.4 1.5.1-1.1 1 .4 1.4-1.3-.8-1.3.8.4-1.4-1.1-1 1.5-.1.5-1.4zM12.8 6l.35 1 1.05.08-.8.72.28 1.02-.88-.55-.88.55.28-1.02-.8-.72 1.05-.08.35-1z" fill="currentColor"/>
+              </svg>
+            {%- when 'exclusive', 'limited', 'limited-edition' -%}
+              <svg class="icon icon-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
+                <path d="M3.5 5.5h9l-.7 7.2a1 1 0 01-1 .8H5.2a1 1 0 01-1-.8L3.5 5.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                <path d="M5.5 5.5V4.2a2.5 2.5 0 015 0v1.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                <path d="M8 8.5v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+            {%- when 'just-in', 'new', 'new-arrival', 'new-arrivals' -%}
+              <svg class="icon icon-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
+                <path d="M3.5 6.2v3.6c0 .4.3.7.7.7h1.3l2.2 2.2V4L5.5 6.2H4.2a.7.7 0 00-.7.7z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+                <path d="M10.2 5.2a3.2 3.2 0 010 5.6M11.8 3.8a5.2 5.2 0 010 8.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+            {%- when 'selling-fast', 'sellingfast', 'hot', 'trending' -%}
+              <svg class="icon icon-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
+                <path d="M9.2 1.5L4.5 8.2h3.1L6.8 14.5l5.5-7.8H9.1L9.2 1.5z" fill="currentColor"/>
+              </svg>
+            {%- else -%}
+              <svg class="icon icon-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
+                <path d="M8 2.5l1.5 3.1 3.4.5-2.45 2.4.58 3.4L8 10.2l-3.03 1.7.58-3.4L3.1 6.1l3.4-.5L8 2.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+              </svg>
+          {%- endcase -%}
+        </span>
+        <span class="badge__text">{{ custom_badge_label | escape | upcase }}</span>
+      </span>
+    </div>
+  {%- endif -%}
+{%- elsif product.available == false -%}
+  <span
+    id="{{ badge_prefix }}-{{ section_id }}-{{ product.id }}"
+    class="badge badge--bottom-left color-{{ settings.sold_out_badge_color_scheme }}"
+  >
+    {{- 'products.product.sold_out' | t -}}
+  </span>
+{%- elsif custom_badge_label != blank -%}
+  <span
+    id="{{ badge_prefix }}-{{ section_id }}-{{ product.id }}"
+    class="badge badge--custom badge--{{ custom_badge_handle }} color-{{ settings.custom_badge_color_scheme }}"
+  >
+    <span class="badge__icon" aria-hidden="true">
+      {%- case custom_badge_handle -%}
+        {%- when 'most-wished', 'most-wish', 'bestseller', 'best-seller' -%}
+          <svg class="icon icon-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
+            <path d="M2.5 11.5c1.2-2.8 2.6-4.2 4.2-5.1.4 1.6 1.4 2.7 3 3.3-1.7.9-3.5 2.5-4.5 5.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M9.2 3.2l.5 1.4 1.5.1-1.1 1 .4 1.4-1.3-.8-1.3.8.4-1.4-1.1-1 1.5-.1.5-1.4zM12.8 6l.35 1 1.05.08-.8.72.28 1.02-.88-.55-.88.55.28-1.02-.8-.72 1.05-.08.35-1z" fill="currentColor"/>
+          </svg>
+        {%- when 'exclusive', 'limited', 'limited-edition' -%}
+          <svg class="icon icon-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
+            <path d="M3.5 5.5h9l-.7 7.2a1 1 0 01-1 .8H5.2a1 1 0 01-1-.8L3.5 5.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            <path d="M5.5 5.5V4.2a2.5 2.5 0 015 0v1.3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            <path d="M8 8.5v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        {%- when 'just-in', 'new', 'new-arrival', 'new-arrivals' -%}
+          <svg class="icon icon-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
+            <path d="M3.5 6.2v3.6c0 .4.3.7.7.7h1.3l2.2 2.2V4L5.5 6.2H4.2a.7.7 0 00-.7.7z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            <path d="M10.2 5.2a3.2 3.2 0 010 5.6M11.8 3.8a5.2 5.2 0 010 8.4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        {%- when 'selling-fast', 'sellingfast', 'hot', 'trending' -%}
+          <svg class="icon icon-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
+            <path d="M9.2 1.5L4.5 8.2h3.1L6.8 14.5l5.5-7.8H9.1L9.2 1.5z" fill="currentColor"/>
+          </svg>
+        {%- when 'on-sale', 'sale', 'onsale' -%}
+          <svg class="icon icon-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
+            <path d="M7.3 2.4L2.8 6.9a1.2 1.2 0 000 1.7l4.6 4.6a1.2 1.2 0 001.7 0l4.5-4.5a1.2 1.2 0 000-1.7L8.9 2.4a1.2 1.2 0 00-1.6 0z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+            <circle cx="6.2" cy="6.2" r="1" fill="currentColor"/>
+          </svg>
+        {%- else -%}
+          <svg class="icon icon-badge" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" focusable="false">
+            <path d="M8 2.5l1.5 3.1 3.4.5-2.45 2.4.58 3.4L8 10.2l-3.03 1.7.58-3.4L3.1 6.1l3.4-.5L8 2.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
+          </svg>
+      {%- endcase -%}
+    </span>
+    <span class="badge__text">{{ custom_badge_label | escape | upcase }}</span>
+  </span>
+{%- endif -%}

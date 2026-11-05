@@ -1,0 +1,153 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement-bar-0": {
+          "type": "announcement",
+          "settings": {
+            "text": "Enjoy Free Shipping on All Orders",
+            "link": ""
+          }
+        },
+        "announcement_eMdABp": {
+          "type": "announcement",
+          "settings": {
+            "text": "10% off on order above 1200 ₹",
+            "link": ""
+          }
+        },
+        "announcement_zYX4qB": {
+          "type": "announcement",
+          "settings": {
+            "text": "₹50 OFF on Mobile Covers | Limited Time Offer",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement-bar-0",
+        "announcement_eMdABp",
+        "announcement_zYX4qB"
+      ],
+      "settings": {
+        "color_scheme": "scheme-4",
+        "show_line_separator": true,
+        "show_social": false,
+        "auto_rotate": true,
+        "change_slides_speed": 3,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
+    "header": {
+      "type": "header",
+      "blocks": {
+        "mega_menu_promo_XBVC7r": {
+          "type": "mega_menu_promo",
+          "settings": {
+            "menu_item": "mobile-covers",
+            "image": "shopify://shop_images/Personalized_Mobile_Covers_with_Floral_Design.png",
+            "title": "SHOP NOW",
+            "link": "https://www.stylenget.com/products/personalized-name-phone-cover-cute-stylish-custom-case-for-girls"
+          }
+        },
+        "mega_menu_promo_QY49gt": {
+          "type": "mega_menu_promo",
+          "settings": {
+            "menu_item": "mobile-covers",
+            "image": "shopify://shop_images/Personalized_Mobile_Covers_Ad.png",
+            "title": "SHOP NOW",
+            "link": "https://www.stylenget.com/products/minimal-name-cover"
+          }
+        },
+        "mega_menu_promo_dEUcp6": {
+          "type": "mega_menu_promo",
+          "settings": {
+            "menu_item": "",
+            "title": "SHOP NOW",
+            "link": ""
+          }
+        },
+        "mega_menu_promo_caps_1": {
+          "type": "mega_menu_promo",
+          "settings": {
+            "menu_item": "caps",
+            "title": "SHOP CAPS",
+            "link": "shopify://collections/all"
+          }
+        },
+        "mega_menu_promo_caps_2": {
+          "type": "mega_menu_promo",
+          "settings": {
+            "menu_item": "caps",
+            "title": "PERSONALIZE NOW",
+            "link": "shopify://products/personalized-cotton-cap-for-men-women"
+          }
+        },
+        "mega_menu_promo_totes_1": {
+          "type": "mega_menu_promo",
+          "settings": {
+            "menu_item": "tote-bags",
+            "title": "SHOP TOTES",
+            "link": "shopify://collections/tote-bags"
+          }
+        },
+        "mega_menu_promo_totes_2": {
+          "type": "mega_menu_promo",
+          "settings": {
+            "menu_item": "tote-bags",
+            "title": "PERSONALIZE NOW",
+            "link": "shopify://products/tote-bag"
+          }
+        }
+      },
+      "block_order": [
+        "mega_menu_promo_XBVC7r",
+        "mega_menu_promo_QY49gt",
+        "mega_menu_promo_dEUcp6",
+        "mega_menu_promo_caps_1",
+        "mega_menu_promo_caps_2",
+        "mega_menu_promo_totes_1",
+        "mega_menu_promo_totes_2"
+      ],
+      "settings": {
+        "logo_position": "top-center",
+        "menu": "main-menu",
+        "menu_type_desktop": "mega",
+        "sticky_header_type": "always",
+        "show_line_separator": true,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-6",
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "mobile_logo_position": "center",
+        "search_label": "Search",
+        "search_subtitle": "Find your style",
+        "account_label": "Account",
+        "account_subtitle": "Login / Signup",
+        "account_subtitle_logged_in": "My account",
+        "cart_label": "Cart",
+        "cart_subtitle": "View cart",
+        "margin_bottom": 0,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
+}

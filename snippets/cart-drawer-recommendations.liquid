@@ -1,0 +1,64 @@
+{% doc %}
+  Renders cross-sell and upsell recommendation slots inside the cart drawer.
+  Products are loaded asynchronously via the Product Recommendations API.
+
+  @example
+  {% render 'cart-drawer-recommendations' %}
+{% enddoc %}
+
+{%- liquid
+  assign show_cross_sell = settings.cart_enable_cross_sell
+  assign show_upsell = settings.cart_enable_upsell
+-%}
+
+{%- if cart != empty -%}
+  {%- if show_cross_sell or show_upsell -%}
+    <cart-drawer-recommendations
+      class="cart-drawer-recommendations"
+      data-url-base="{{ routes.product_recommendations_url }}"
+      data-section-id="cart-drawer-recommendations"
+      data-product-id="{{ cart.items.first.product_id }}"
+      {% if show_cross_sell %}
+        data-cross-sell-enabled="true"
+        data-cross-sell-limit="{{ settings.cart_cross_sell_limit | default: 4 }}"
+      {% endif %}
+      {% if show_upsell %}
+        data-upsell-enabled="true"
+        data-upsell-limit="{{ settings.cart_upsell_limit | default: 2 }}"
+      {% endif %}
+    >
+      {%- if show_cross_sell -%}
+        <div
+          class="cart-drawer-recommendations__slot cart-drawer-recommendations__slot--cross-sell"
+          data-recommendations-slot="related"
+          hidden
+        >
+          <div class="cart-drawer-recs cart-drawer-recs--skeleton" aria-hidden="true">
+            <div class="cart-drawer-recs__header">
+              <div class="cart-drawer-recs__heading cart-drawer-recs__heading--skeleton"></div>
+            </div>
+            <div class="cart-drawer-recs__list cart-drawer-recs__list--skeleton">
+              <div class="cart-drawer-recs__skeleton-card"></div>
+              <div class="cart-drawer-recs__skeleton-card"></div>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if show_upsell -%}
+        <div
+          class="cart-drawer-recommendations__slot cart-drawer-recommendations__slot--upsell"
+          data-recommendations-slot="complementary"
+          hidden
+        >
+          <div class="cart-drawer-recs cart-drawer-recs--skeleton" aria-hidden="true">
+            <div class="cart-drawer-recs__heading cart-drawer-recs__heading--skeleton"></div>
+            <div class="cart-drawer-recs__list cart-drawer-recs__list--skeleton">
+              <div class="cart-drawer-recs__skeleton-card"></div>
+            </div>
+          </div>
+        </div>
+      {%- endif -%}
+    </cart-drawer-recommendations>
+  {%- endif -%}
+{%- endif -%}

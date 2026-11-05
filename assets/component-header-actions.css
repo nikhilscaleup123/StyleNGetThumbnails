@@ -1,0 +1,223 @@
+/* Header actions — clean icon + text (no circular containers) */
+
+.header-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  text-decoration: none;
+  color: #111111;
+  transition: opacity 0.25s ease;
+}
+
+.header-action__icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.header-action__text {
+  display: none !important;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.header-action__title {
+  display: block;
+  height: auto;
+  font-size: 1.4rem; /* 14px */
+  font-weight: 600;
+  color: #111111;
+  letter-spacing: 0.01em;
+}
+
+.header-action__subtitle {
+  display: block;
+  height: auto;
+  font-size: 1.25rem; /* ~12.5–13px */
+  font-weight: 400;
+  color: #666666;
+  letter-spacing: 0;
+}
+
+.header-action__divider {
+  display: none;
+  width: 1px;
+  height: 2.8rem;
+  background: #ececec;
+  flex-shrink: 0;
+}
+
+/* Desktop: icon + text, no rounded containers */
+@media screen and (min-width: 990px) {
+  .header__icon.header-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.2rem;
+    width: auto;
+    height: auto;
+    min-width: 0;
+    min-height: 4.4rem;
+    padding: 0.4rem 0;
+  }
+
+  .header-action__icon-wrap {
+    width: 2.4rem;
+    height: 2.4rem;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  .header__icon.header-action:hover .header-action__icon-wrap {
+    opacity: 0.75;
+  }
+
+  .header-action__icon-wrap .icon {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .header-action__text {
+    display: flex !important;
+  }
+
+  .header-action__divider {
+    display: block;
+    margin: 0 0.4rem 0 1.2rem;
+  }
+
+  .header__icons .header-action--account,
+  .header__icons .header-action--cart {
+    margin: 0;
+  }
+
+  .header__icons .header-action--cart {
+    margin-right: 0;
+  }
+
+  .header__icons .header-action--cart .cart-count-bubble {
+    bottom: auto;
+    top: -0.2rem;
+    left: auto;
+    right: -0.6rem;
+  }
+
+  .header > .header__search .header-action {
+    padding-left: 0;
+  }
+
+  .header__icons {
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  /* Keep search / account / cart on one optical baseline */
+  .header > .header__search .header-action,
+  .header__icons .header-action {
+    align-items: center;
+  }
+}
+
+/* Mobile: icons only */
+@media screen and (max-width: 989px) {
+  .header {
+    align-items: center;
+  }
+
+  .header__icon,
+  .header__icon.header-action {
+    width: 4.4rem;
+    height: 4.4rem;
+    padding: 0;
+    gap: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .header-action__icon-wrap {
+    width: 2.2rem;
+    height: 2.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+
+  .header__icon .icon,
+  .header-action__icon-wrap .icon {
+    width: 2.2rem !important;
+    height: 2.2rem !important;
+  }
+
+  .header__icon--cart .icon {
+    width: 2.4rem !important;
+    height: 2.4rem !important;
+  }
+
+  .header__icon--cart {
+    margin-right: 0;
+  }
+
+  .header__icons {
+    align-items: center;
+    gap: 0;
+  }
+
+  .header-action__text,
+  .header-action__divider {
+    display: none !important;
+  }
+
+  .header__icon--cart .cart-count-bubble {
+    bottom: 0.6rem;
+    left: 2.2rem;
+  }
+}
+
+/* Scroll: compact icons only */
+.scrolled-past-header .header-action__text,
+.scrolled-past-header .header-action__divider {
+  display: none !important;
+}
+
+.scrolled-past-header .header__icon.header-action {
+  gap: 0;
+  padding: 0;
+  width: 3.6rem;
+  height: 3.6rem;
+  justify-content: center;
+}
+
+.scrolled-past-header .header-action__icon-wrap {
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.scrolled-past-header .header-action__icon-wrap .icon {
+  width: 2rem !important;
+  height: 2rem !important;
+}
+
+.scrolled-past-header .header__icons .header-action--cart .cart-count-bubble {
+  top: auto;
+  right: auto;
+  bottom: 0.7rem;
+  left: 1.6rem;
+}

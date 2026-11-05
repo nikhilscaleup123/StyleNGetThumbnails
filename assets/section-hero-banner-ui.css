@@ -1,0 +1,141 @@
+/* =========================================================
+   Homepage Hero Banner — full-width immersive layout
+   Header / Featured Products widths unchanged.
+   ========================================================= */
+
+#MainContent > .shopify-section:first-child {
+  --hero-pad-y: 1.6rem;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0 0 var(--hero-pad-y);
+  background-color: #ffffff;
+  overflow-x: clip;
+}
+
+#MainContent > .shopify-section:first-child .banner {
+  display: block;
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-width: 100%;
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0;
+  overflow: visible;
+  background-color: #ffffff;
+}
+
+/* Kill Dawn absolute overlay / aspect spacers — full artwork visible */
+#MainContent > .shopify-section:first-child .banner::before,
+#MainContent > .shopify-section:first-child .banner__media::before,
+#MainContent > .shopify-section:first-child .banner__content::before {
+  content: none !important;
+  display: none !important;
+  padding-bottom: 0 !important;
+  height: 0 !important;
+}
+
+#MainContent > .shopify-section:first-child .banner::after,
+#MainContent > .shopify-section:first-child .banner__media::after {
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+/* Hide empty content box — no extra gap under artwork */
+#MainContent > .shopify-section:first-child .banner__content {
+  display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden;
+}
+
+/* ---------- Full-width banner artwork (edge to edge) ---------- */
+#MainContent > .shopify-section:first-child .banner__media {
+  position: relative !important;
+  inset: auto;
+  left: auto;
+  top: auto;
+  right: auto;
+  width: 100%;
+  max-width: 100%;
+  height: auto !important;
+  display: block;
+  padding: 0;
+  margin: 0;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+#MainContent > .shopify-section:first-child .banner__media img,
+#MainContent > .shopify-section:first-child .banner__media > img {
+  position: relative !important;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto !important;
+  margin: 0;
+  object-fit: contain !important;
+  object-position: center center;
+  /* Soft depth — light, not heavy */
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.05)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.03));
+}
+
+/* Vertical spacing only — no side margins */
+@media screen and (min-width: 750px) {
+  #MainContent > .shopify-section:first-child {
+    --hero-pad-y: 2.4rem;
+    padding: 0.4rem 0 var(--hero-pad-y);
+  }
+}
+
+@media screen and (min-width: 990px) {
+  #MainContent > .shopify-section:first-child {
+    --hero-pad-y: 3.2rem;
+    padding: 0.8rem 0 var(--hero-pad-y);
+  }
+}
+
+/* ---------- Transition into Featured Products (section stays page-width) ---------- */
+#MainContent > .shopify-section:first-child::after {
+  content: '';
+  display: block;
+  height: 0.1rem;
+  margin: 2rem auto 0;
+  max-width: var(--page-width, 120rem);
+  width: calc(100% - 3.2rem);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #ececec 14%,
+    #ececec 86%,
+    transparent 100%
+  );
+}
+
+#MainContent > .shopify-section:first-child + .shopify-section {
+  background-color: #ffffff;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* ---------- Mobile ---------- */
+@media screen and (max-width: 749px) {
+  #MainContent > .shopify-section:first-child {
+    --hero-pad-y: 1.6rem;
+    padding: 0 0 var(--hero-pad-y);
+  }
+
+  #MainContent > .shopify-section:first-child .banner__media img,
+  #MainContent > .shopify-section:first-child .banner__media > img {
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.04)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.03));
+  }
+
+  #MainContent > .shopify-section:first-child::after {
+    width: calc(100% - 2.4rem);
+    margin-top: 1.6rem;
+  }
+}

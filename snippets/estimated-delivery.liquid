@@ -1,0 +1,56 @@
+{% doc %}
+  Estimated delivery window based on 5–7 working days (Sat & Sun excluded).
+  Date range is filled by assets/estimated-delivery.js using the visitor's local date.
+
+  @param {object} [block] - Optional section block for theme editor attributes
+
+  @example
+  {% render 'estimated-delivery', block: block %}
+{% enddoc %}
+
+{{ 'estimated-delivery.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'estimated-delivery.js' | asset_url }}" defer="defer"></script>
+
+<div
+  class="estimated-delivery"
+  data-estimated-delivery
+  {% if block %}
+    {{ block.shopify_attributes }}
+  {% endif %}
+>
+  <div class="estimated-delivery__icon" aria-hidden="true">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" focusable="false">
+      <path
+        d="M4 14h22v16H14.5"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <path
+        d="M26 20h8.5l5.5 6v4H26V20Z"
+        stroke="currentColor"
+        stroke-width="2.2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+      <circle cx="16" cy="34" r="3.2" stroke="currentColor" stroke-width="2.2" />
+      <circle cx="34" cy="34" r="3.2" stroke="currentColor" stroke-width="2.2" />
+      <path d="M2 18h4M1 22h5M3 26h3" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    </svg>
+  </div>
+  <div class="estimated-delivery__content">
+    <p class="estimated-delivery__title">Estimated Delivery</p>
+    <p class="estimated-delivery__text">
+      Get it between
+      <span class="estimated-delivery__range" data-estimated-delivery-range>…</span>
+    </p>
+    <span class="estimated-delivery__badge">
+      <span class="estimated-delivery__badge-dot" aria-hidden="true"></span>
+      <span>
+        Delivered within 5–7 Working Days<br>
+        (Sat &amp; Sun excluded)
+      </span>
+    </span>
+  </div>
+</div>

@@ -1,0 +1,146 @@
+{% doc %}
+  Cart rewards milestone bar.
+  Free shipping is always unlocked when the cart has items.
+  Discount messaging is controlled in Theme settings (threshold + percent or fixed amount).
+  Confetti plays once when the final reward milestone is unlocked.
+
+  @example
+  {% render 'shipping-progress-bar' %}
+{% enddoc %}
+
+{%- if cart != empty and settings.cart_rewards_bar_enable != false -%}
+  {%- liquid
+    assign reward_threshold = settings.cart_reward_threshold | default: 1200 | times: 100
+    assign reward_type = settings.cart_reward_type | default: 'percent'
+    assign cart_total = cart.total_price
+
+    if cart_total >= reward_threshold
+      assign stage = 3
+      assign progress = 100
+    else
+      assign stage = 2
+      assign progress = 66
+    endif
+
+    if reward_type == 'fixed'
+      assign reward_amount = settings.cart_reward_amount | default: 100 | times: 100
+      assign reward_label = reward_amount | money_without_trailing_zeros
+      if settings.currency_code_enabled
+        assign reward_label = reward_amount | money_with_currency
+      endif
+    else
+      assign reward_percent = settings.cart_reward_percent | default: 10
+      assign reward_label = reward_percent | append: '%'
+    endif
+
+    assign remaining_to_reward = reward_threshold | minus: cart_total
+    if remaining_to_reward < 0
+      assign remaining_to_reward = 0
+    endif
+
+    assign remaining_to_reward_money = remaining_to_reward | money_without_trailing_zeros
+    if settings.currency_code_enabled
+      assign remaining_to_reward_money = remaining_to_reward | money_with_currency
+    endif
+  -%}
+
+  <div
+    class="shipping-progress shipping-progress--stage-{{ stage }}"
+    data-shipping-progress
+    data-stage="{{ stage }}"
+    role="progressbar"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    aria-valuenow="{{ progress }}"
+    aria-label="{{ 'sections.cart.rewards.aria_label' | t }}"
+  >
+    <div class="shipping-progress__header">
+      {%- if stage == 2 -%}
+        <h3 class="shipping-progress__title">
+          <span class="shipping-progress__spark" aria-hidden="true">✦</span>
+          {{ 'sections.cart.rewards.free_shipping_unlocked' | t }}
+          <span class="shipping-progress__spark" aria-hidden="true">✦</span>
+        </h3>
+        <p class="shipping-progress__sub">
+          {{ 'sections.cart.rewards.shop_for_reward_html' | t: amount: remaining_to_reward_money, reward: reward_label }}
+        </p>
+      {%- else -%}
+        <h3 class="shipping-progress__title shipping-progress__title--success">
+          <span class="shipping-progress__spark" aria-hidden="true">✦</span>
+          {{ 'sections.cart.rewards.reward_unlocked_html' | t: reward: reward_label }}
+          <span class="shipping-progress__spark" aria-hidden="true">✦</span>
+        </h3>
+        <p class="shipping-progress__sub">{{ 'sections.cart.rewards.all_unlocked' | t }}</p>
+      {%- endif -%}
+    </div>
+
+    <ol class="shipping-progress__steps" role="list">
+      <li class="shipping-progress__step is-done">
+        <span class="shipping-progress__node" aria-hidden="true">
+          <span class="shipping-progress__num">1</span>
+        </span>
+        <span class="shipping-progress__label">
+          {{ 'sections.cart.rewards.step_start' | t }}
+        </span>
+      </li>
+
+      <li
+        class="shipping-progress__step{% if stage == 2 %} is-current{% else %} is-done{% endif %}"
+      >
+        <span class="shipping-progress__node" aria-hidden="true">
+          {%- if stage == 2 -%}
+            <svg class="shipping-progress__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" focusable="false">
+              <path d="M3 7.5h9.5V16H3V7.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <path d="M12.5 10.5H17l3 3V16h-7.5v-5.5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              <circle cx="7" cy="17.5" r="1.6" stroke="currentColor" stroke-width="1.6"/>
+              <circle cx="16.5" cy="17.5" r="1.6" stroke="currentColor" stroke-width="1.6"/>
+            </svg>
+          {%- else -%}
+            <span class="shipping-progress__num">2</span>
+          {%- endif -%}
+        </span>
+        <span class="shipping-progress__label">
+          {{ 'sections.cart.rewards.step_free_shipping' | t }}
+          <span class="shipping-progress__badge">{{ 'sections.cart.rewards.unlocked' | t }}</span>
+        </span>
+      </li>
+
+      <li
+        class="shipping-progress__step shipping-progress__step--reward{% if stage == 3 %} is-current is-done{% else %} is-todo{% endif %}"
+      >
+        <span class="shipping-progress__node-wrap">
+          {%- if stage == 3 -%}
+            <span class="shipping-progress__confetti" aria-hidden="true">
+              {%- for i in (1..18) -%}
+                <span class="shipping-progress__piece shipping-progress__piece--{{ i }}"></span>
+              {%- endfor -%}
+              <span class="shipping-progress__ray shipping-progress__ray--1"></span>
+              <span class="shipping-progress__ray shipping-progress__ray--2"></span>
+              <span class="shipping-progress__ray shipping-progress__ray--3"></span>
+              <span class="shipping-progress__ray shipping-progress__ray--4"></span>
+            </span>
+            <span class="shipping-progress__toast" role="status">
+              {{ 'sections.cart.rewards.toast_html' | t: reward: reward_label }}
+            </span>
+          {%- endif -%}
+          <span class="shipping-progress__node" aria-hidden="true">
+            {%- if stage == 3 -%}
+              <svg class="shipping-progress__icon shipping-progress__icon--check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" focusable="false">
+                <path d="M5 12.5 10 17.5 19 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            {%- else -%}
+              <span class="shipping-progress__num">3</span>
+            {%- endif -%}
+          </span>
+        </span>
+        <span class="shipping-progress__label">
+          {%- if stage >= 3 -%}
+            {{ 'sections.cart.rewards.step_reward_done_html' | t: reward: reward_label }}
+          {%- else -%}
+            {{ 'sections.cart.rewards.step_reward_html' | t: amount: remaining_to_reward_money, reward: reward_label }}
+          {%- endif -%}
+        </span>
+      </li>
+    </ol>
+  </div>
+{%- endif -%}

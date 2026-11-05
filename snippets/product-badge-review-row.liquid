@@ -1,0 +1,86 @@
+{% comment %}
+  Product page row: custom badge (left) + reviews (right).
+
+  With 0 reviews: always shows empty stars (Noteable-style).
+  With reviews: shows Judge.me / native rating.
+
+  Accepts:
+  - product: {Object} Product Liquid object (required)
+  - section_id: {String} Section ID (required)
+{% endcomment %}
+{%- liquid
+  assign review_count = product.metafields.reviews.rating_count | default: 0 | plus: 0
+  assign has_reviews = false
+  if product.metafields.reviews.rating.value != blank and review_count > 0
+    assign has_reviews = true
+  endif
+
+  assign judgeme_badge_html = product.metafields.judgeme.badge.value | default: product.metafields.judgeme.badge | strip
+  assign use_judgeme = false
+  if has_reviews == false and judgeme_badge_html != blank
+    assign judgeme_check = judgeme_badge_html | downcase
+    if judgeme_check contains 'jdgm-star' and judgeme_check contains 'jdgm-star--fill'
+      assign use_judgeme = true
+      assign has_reviews = true
+    endif
+  endif
+-%}
+<div class="product__badge-review-row">
+  <div class="product__badge-review-row__badge">
+    {%- render 'product-card-badges',
+      product: product,
+      section_id: section_id,
+      badge_id_prefix: 'ProductTitleBadge',
+      placement: 'title'
+    -%}
+  </div>
+
+  <div class="product__badge-review-row__reviews">
+    {%- if use_judgeme -%}
+      <div class="jdgm-widget jdgm-preview-badge" data-id="{{ product.id }}">
+        {{ judgeme_badge_html }}
+      </div>
+    {%- elsif has_reviews -%}
+      {%- liquid
+        assign rating_decimal = 0
+        assign decimal = product.metafields.reviews.rating.value.rating | modulo: 1
+        if decimal >= 0.3 and decimal <= 0.7
+          assign rating_decimal = 0.5
+        elsif decimal > 0.7
+          assign rating_decimal = 1
+        endif
+      -%}
+      <div class="rating-wrapper product__badge-review-row__native">
+        <div
+          class="rating"
+          role="img"
+          aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: product.metafields.reviews.rating.value, rating_max: product.metafields.reviews.rating.value.scale_max }}"
+        >
+          <span
+            aria-hidden="true"
+            class="rating-star"
+            style="--rating: {{ product.metafields.reviews.rating.value.rating | floor }}; --rating-max: {{ product.metafields.reviews.rating.value.scale_max }}; --rating-decimal: {{ rating_decimal }};"
+          ></span>
+        </div>
+        <p class="rating-count caption">
+          <span aria-hidden="true">({{ review_count }})</span>
+          <span class="visually-hidden">
+            {{- review_count }}
+            {{ 'accessibility.total_reviews' | t -}}
+          </span>
+        </p>
+      </div>
+    {%- else -%}
+      <div
+        class="product__review-empty"
+        style="display:inline-flex !important;visibility:visible !important;opacity:1 !important;flex-direction:column;align-items:flex-end;gap:4px;"
+      >
+        <span
+          class="product__review-empty-stars"
+          aria-hidden="true"
+          style="display:block !important;font-size:22px;line-height:1;letter-spacing:3px;color:#FFA41C;"
+        >☆☆☆☆☆</span>
+      </div>
+    {%- endif -%}
+  </div>
+</div>

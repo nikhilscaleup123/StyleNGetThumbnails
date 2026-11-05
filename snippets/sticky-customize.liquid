@@ -1,0 +1,206 @@
+{% comment %}
+  Compact sticky buy box — Customize (ScaleUp) OR Add to cart products.
+{% endcomment %}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<aside
+  class="sticky-customize"
+  id="StickyCustomize"
+  hidden
+  data-section-id="{{ section.id }}"
+  data-atc-label="{{ 'products.product.add_to_cart' | t | escape }}"
+  data-customize-label="Customize"
+  aria-label="{{ product.title | escape }}"
+>
+  <div class="sticky-customize__panel">
+    <h2 class="sticky-customize__title">{{ product.title | escape }}</h2>
+
+    <div class="sticky-customize__price" id="StickyCustomizePrice">
+      {%- render 'price',
+        product: product,
+        use_variant: true,
+        show_badges: true,
+        price_class: 'price--large'
+      -%}
+    </div>
+
+    {%- unless product.has_only_default_variant -%}
+      {%- for option in product.options_with_values -%}
+        {%- liquid
+          assign option_name_downcase = option.name | downcase
+          assign is_color_option = false
+          assign is_size_option = false
+
+          if option_name_downcase contains 'color' or option_name_downcase contains 'colour'
+            assign is_color_option = true
+          endif
+
+          if option_name_downcase == 'size'
+            assign is_size_option = true
+          endif
+        -%}
+        <div
+          class="sticky-customize__option{% if is_color_option %} sticky-customize__option--color{% endif %}{% if is_size_option %} sticky-customize__option--size{% endif %}"
+          data-option-name="{{ option.name | escape }}"
+          data-option-position="{{ option.position }}"
+        >
+          <p class="sticky-customize__label{% if is_size_option %} sticky-customize__label--size{% endif %}">
+            {%- if is_size_option -%}
+              SELECT SIZE
+            {%- else -%}
+              {{ option.name }}
+              {%- if is_color_option -%}
+                :
+                <span data-selected-swatch-value="{{ option.name }}">{{ option.selected_value }}</span>
+              {%- endif -%}
+            {%- endif -%}
+          </p>
+          <div class="sticky-customize__values" role="list">
+            {%- for value in option.values -%}
+              {%- liquid
+                assign size_display_value = value
+                assign swatch_value = null
+
+                if is_size_option
+                  assign normalized_size_value = value | handle
+
+                  case normalized_size_value
+                    when 'extra-small', 'x-small', 'xs'
+                      assign size_display_value = 'XS'
+                    when 'small', 's'
+                      assign size_display_value = 'S'
+                    when 'medium', 'm'
+                      assign size_display_value = 'M'
+                    when 'large', 'l'
+                      assign size_display_value = 'L'
+                    when 'extra-large', 'x-large', 'xtra-large', 'xl'
+                      assign size_display_value = 'XL'
+                    when '2xl', 'xxl', '2-x-l', '2xtra-large'
+                      assign size_display_value = '2XL'
+                    when '3xl', 'xxxl', '3-x-l', '3xtra-large'
+                      assign size_display_value = '3XL'
+                  endcase
+                endif
+
+                if is_color_option
+                  if value.swatch.image
+                    assign image_url = value.swatch.image | image_url: width: 50
+                    assign swatch_value = 'url(' | append: image_url | append: ')'
+                  elsif value.swatch.color
+                    assign swatch_value = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+                  else
+                    assign normalized_color_value = value | handle
+
+                    case normalized_color_value
+                      when 'black'
+                        assign swatch_value = '#000000'
+                      when 'white'
+                        assign swatch_value = '#ffffff'
+                      when 'red'
+                        assign swatch_value = '#d32f2f'
+                      when 'navy', 'navy-blue'
+                        assign swatch_value = '#1f2a44'
+                      when 'blue'
+                        assign swatch_value = '#1e88e5'
+                      when 'sky-blue'
+                        assign swatch_value = '#87ceeb'
+                      when 'green'
+                        assign swatch_value = '#2e7d32'
+                      when 'olive'
+                        assign swatch_value = '#708238'
+                      when 'yellow'
+                        assign swatch_value = '#fdd835'
+                      when 'orange'
+                        assign swatch_value = '#fb8c00'
+                      when 'pink'
+                        assign swatch_value = '#ec407a'
+                      when 'purple'
+                        assign swatch_value = '#8e24aa'
+                      when 'brown'
+                        assign swatch_value = '#8d6e63'
+                      when 'beige'
+                        assign swatch_value = '#d6c1a3'
+                      when 'cream'
+                        assign swatch_value = '#f5f1de'
+                      when 'gray', 'grey'
+                        assign swatch_value = '#9e9e9e'
+                      when 'silver'
+                        assign swatch_value = '#c0c0c0'
+                      when 'gold'
+                        assign swatch_value = '#d4af37'
+                      when 'maroon'
+                        assign swatch_value = '#800000'
+                      when 'multicolor', 'multi-color'
+                        assign swatch_value = 'linear-gradient(135deg, #ff5252 0%, #ffd54f 35%, #66bb6a 65%, #42a5f5 100%)'
+                    endcase
+                  endif
+                endif
+              -%}
+              <button
+                type="button"
+                class="sticky-customize__value{% if is_color_option %} sticky-customize__value--swatch{% endif %}{% if is_size_option %} sticky-customize__value--size{% endif %}{% if option.selected_value == value %} is-selected{% endif %}{% if is_color_option and swatch_value == blank %} sticky-customize__value--swatch-fallback{% endif %}"
+                data-option-name="{{ option.name | escape }}"
+                data-value="{{ value | escape }}"
+                title="{{ value | escape }}"
+                aria-pressed="{% if option.selected_value == value %}true{% else %}false{% endif %}"
+                {% if is_color_option and swatch_value != blank %}
+                  style="--sticky-swatch-bg: {{ swatch_value }};"
+                {% endif %}
+              >
+                {%- if is_color_option -%}
+                  <span class="visually-hidden">{{ value | escape }}</span>
+                {%- elsif is_size_option -%}
+                  {{ size_display_value }}
+                {%- else -%}
+                  {{ value }}
+                {%- endif -%}
+              </button>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- endunless -%}
+
+    <div class="sticky-customize__qty">
+      <p class="sticky-customize__label">{{ 'products.product.quantity.label' | t }}</p>
+      <div class="sticky-customize__qty-controls">
+        <button type="button" class="sticky-customize__qty-btn" id="StickyQtyMinus" aria-label="Decrease quantity">
+          −
+        </button>
+        <input
+          type="number"
+          class="sticky-customize__qty-input"
+          id="StickyQtyInput"
+          value="{{ current_variant.quantity_rule.min }}"
+          min="{{ current_variant.quantity_rule.min }}"
+          {% if current_variant.quantity_rule.max != null %}
+            max="{{ current_variant.quantity_rule.max }}"
+          {% endif %}
+          step="{{ current_variant.quantity_rule.increment }}"
+          inputmode="numeric"
+        >
+        <button type="button" class="sticky-customize__qty-btn" id="StickyQtyPlus" aria-label="Increase quantity">
+          +
+        </button>
+      </div>
+    </div>
+
+    <button
+      type="button"
+      class="sticky-customize__button sticky-customize__button--cart"
+      id="StickyCustomizeButton"
+    >
+      <span class="sticky-customize__button-icon" aria-hidden="true">
+        <svg class="icon icon-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M6 6h15l-1.5 9h-12L6 6z"/>
+          <path d="M6 6L5 3H2"/>
+          <circle cx="9" cy="20" r="1.25"/>
+          <circle cx="18" cy="20" r="1.25"/>
+        </svg>
+      </span>
+      <span class="sticky-customize__button-label">{{ 'products.product.add_to_cart' | t }}</span>
+      {%- render 'loading-spinner' -%}
+    </button>
+  </div>
+</aside>

@@ -1,0 +1,25 @@
+{%- comment -%}
+  Renders a single announcement message with icon.
+
+  @param {string} text - Announcement text
+  @param {string} link - Optional link URL
+  @param {number} block_index - Block order index for icon selection
+{%- endcomment -%}
+
+{%- if text != blank -%}
+  {%- if link != blank -%}
+    <a href="{{ link }}" class="announcement-bar__link link link--text focus-inset animate-arrow">
+  {%- endif -%}
+  <p class="announcement-bar__message h5">
+    <span class="announcement-bar__icon" aria-hidden="true">
+      {%- render 'announcement-bar-icon', block_index: block_index -%}
+    </span>
+    <span class="announcement-bar__text">{{ text | escape }}</span>
+    {%- if link != blank -%}
+      {%- render 'icon-arrow' -%}
+    {%- endif -%}
+  </p>
+  {%- if link != blank -%}
+    </a>
+  {%- endif -%}
+{%- endif -%}

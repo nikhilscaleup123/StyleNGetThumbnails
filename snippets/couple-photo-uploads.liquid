@@ -1,0 +1,415 @@
+{% doc %}
+  Photo uploads for personalized mobile-cover products.
+  Couple cover: Classic Couple needs 1 photo, Black & White needs 4.
+  Photo collage: Polaroid Collage and Memory Grid need 4, Classic Frame needs 2.
+  Other products render nothing. Files are line item properties on the order.
+
+  @param {product} product
+  @param {string} section_id
+  @param {string} form_id
+
+  @example
+  {% render 'couple-photo-uploads', product: product, section_id: section.id, form_id: product_form_id %}
+{% enddoc %}
+
+{%- if product.handle == 'personalized-couple-photo-mobile-covers' or product.handle == 'personalized-photo-collage-mobile-covers' -%}
+  {%- liquid
+    assign four_file_variant_ids = ''
+    assign two_file_variant_ids = ''
+    assign photo_upload_count = 1
+    assign selected_variant_id = product.selected_or_first_available_variant.id
+
+    for cover_variant in product.variants
+      assign variant_key = cover_variant.option1 | handle | append: '-' | append: cover_variant.option2 | handle | append: '-' | append: cover_variant.option3 | handle | append: '-' | append: cover_variant.title | handle
+      assign variant_count = 1
+      if variant_key contains 'polaroid-collage' or variant_key contains 'memory-grid'
+        assign variant_count = 4
+      elsif variant_key contains 'classic-frame'
+        assign variant_count = 2
+      elsif variant_key contains 'black' and variant_key contains 'white'
+        assign variant_count = 4
+      endif
+
+      if variant_count == 4
+        assign four_file_variant_ids = four_file_variant_ids | append: cover_variant.id | append: ','
+      elsif variant_count == 2
+        assign two_file_variant_ids = two_file_variant_ids | append: cover_variant.id | append: ','
+      endif
+
+      if cover_variant.id == selected_variant_id
+        assign photo_upload_count = variant_count
+      endif
+    endfor
+  -%}
+
+  <div
+    class="couple-photo-uploads"
+    data-couple-photo-uploads
+    data-count="{{ photo_upload_count }}"
+    data-four-file-ids="{{ four_file_variant_ids }}"
+    data-two-file-ids="{{ two_file_variant_ids }}"
+    data-picker-id="variant-selects-{{ section_id }}"
+    data-form-id="{{ form_id }}"
+  >
+    <p class="couple-photo-uploads__label">
+      Your Favourite Photo
+      <span class="couple-photo-uploads__heart" aria-hidden="true">♥</span>
+    </p>
+
+    {%- for i in (1..4) -%}
+      <div
+        class="couple-photo-uploads__slot"
+        data-upload-slot="{{ i }}"
+        {% if i > photo_upload_count %}
+          hidden
+        {% endif %}
+      >
+        <span class="couple-photo-uploads__slot-label">Photo {{ i }}</span>
+        <label class="couple-photo-uploads__drop" data-drop>
+          <input
+            id="CouplePhoto-{{ section_id }}-{{ i }}"
+            class="couple-photo-uploads__input"
+            type="file"
+            name="properties[Photo {{ i }}]"
+            form="{{ form_id }}"
+            accept="image/png,image/jpeg,image/jpg,image/webp,image/*"
+            {% if i > photo_upload_count %}
+              disabled
+            {% endif %}
+          >
+          <span class="couple-photo-uploads__button">Choose File</span>
+          <span class="couple-photo-uploads__or">or Drag and Drop to Upload</span>
+          <span class="couple-photo-uploads__filename" data-file-name hidden></span>
+        </label>
+      </div>
+    {%- endfor -%}
+
+    <p class="couple-photo-uploads__error" data-upload-error role="alert" hidden></p>
+    <p class="couple-photo-uploads__hint">Upload a clear photo with all faces clearly visible.</p>
+  </div>
+
+  <style>
+    .couple-photo-uploads {
+      margin: 1.6rem 0 0.4rem;
+    }
+
+    .couple-photo-uploads__label {
+      margin: 0 0 0.8rem;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .couple-photo-uploads__heart {
+      color: #e11d48;
+    }
+
+    .couple-photo-uploads__slot + .couple-photo-uploads__slot {
+      margin-top: 1rem;
+    }
+
+    .couple-photo-uploads[data-count='2'],
+    .couple-photo-uploads[data-count='4'] {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 0.8rem;
+      row-gap: 0.8rem;
+    }
+
+    .couple-photo-uploads[data-count='2'] .couple-photo-uploads__label,
+    .couple-photo-uploads[data-count='2'] .couple-photo-uploads__error,
+    .couple-photo-uploads[data-count='2'] .couple-photo-uploads__hint,
+    .couple-photo-uploads[data-count='4'] .couple-photo-uploads__label,
+    .couple-photo-uploads[data-count='4'] .couple-photo-uploads__error,
+    .couple-photo-uploads[data-count='4'] .couple-photo-uploads__hint {
+      grid-column: 1 / -1;
+    }
+
+    .couple-photo-uploads[data-count='2'] .couple-photo-uploads__label,
+    .couple-photo-uploads[data-count='4'] .couple-photo-uploads__label {
+      margin-bottom: 0;
+    }
+
+    .couple-photo-uploads[data-count='2'] .couple-photo-uploads__slot + .couple-photo-uploads__slot,
+    .couple-photo-uploads[data-count='4'] .couple-photo-uploads__slot + .couple-photo-uploads__slot {
+      margin-top: 0;
+    }
+
+    .couple-photo-uploads[data-count='2'] .couple-photo-uploads__drop,
+    .couple-photo-uploads[data-count='4'] .couple-photo-uploads__drop {
+      padding: 0.8rem 0.6rem;
+      gap: 0.3rem;
+    }
+
+    .couple-photo-uploads[data-count='2'] .couple-photo-uploads__or,
+    .couple-photo-uploads[data-count='4'] .couple-photo-uploads__or {
+      display: none;
+    }
+
+    .couple-photo-uploads[data-count='2'] .couple-photo-uploads__button,
+    .couple-photo-uploads[data-count='4'] .couple-photo-uploads__button {
+      min-width: 0;
+      padding: 0.5rem 0.8rem;
+      font-size: 1.3rem;
+    }
+
+    .couple-photo-uploads[data-count='2'] .couple-photo-uploads__hint,
+    .couple-photo-uploads[data-count='4'] .couple-photo-uploads__hint {
+      margin-top: 0;
+    }
+
+    .couple-photo-uploads[data-count='1'] .couple-photo-uploads__slot-label {
+      display: none;
+    }
+
+    .couple-photo-uploads__slot-label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .couple-photo-uploads__drop {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1.6rem 1.2rem;
+      border: 1px dashed #c9cdd4;
+      border-radius: 8px;
+      background: #fafafa;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .couple-photo-uploads__drop.is-dragover {
+      border-color: #3b82f6;
+      background: #f3f8ff;
+    }
+
+    .couple-photo-uploads__input {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      opacity: 0;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .couple-photo-uploads__button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 11rem;
+      padding: 0.7rem 1.4rem;
+      border-radius: 6px;
+      background: #e7f0ff;
+      color: #3b82f6;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .couple-photo-uploads__or,
+    .couple-photo-uploads__hint {
+      margin: 0;
+      color: #6b7280;
+      font-size: 1.3rem;
+    }
+
+    .couple-photo-uploads__hint {
+      margin-top: 0.8rem;
+    }
+
+    .couple-photo-uploads__filename {
+      color: #13743b;
+      font-size: 1.2rem;
+      word-break: break-word;
+    }
+
+    .couple-photo-uploads__error {
+      margin: 0.8rem 0 0;
+      color: #eb001b;
+      font-size: 1.3rem;
+    }
+  </style>
+
+  <script>
+    (function () {
+      var MAX_BYTES = 20 * 1024 * 1024;
+
+      function isImage(file) {
+        if (file.type && file.type.indexOf('image/') === 0) return true;
+        return /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(file.name || '');
+      }
+
+      function fileCountFromText(value) {
+        var text = String(value || '').toLowerCase();
+        if (text.indexOf('polaroid collage') !== -1 || text.indexOf('memory grid') !== -1) return 4;
+        if (text.indexOf('classic frame') !== -1) return 2;
+        if (text.indexOf('black') !== -1 && text.indexOf('white') !== -1) return 4;
+        return 0;
+      }
+
+      function fileCount(picker, root) {
+        var fourIds = (root.getAttribute('data-four-file-ids') || '').split(',');
+        var twoIds = (root.getAttribute('data-two-file-ids') || '').split(',');
+        var form = document.getElementById(root.getAttribute('data-form-id'));
+        var idField = form && form.querySelector('[name="id"]');
+        var variantId = idField ? String(idField.value) : '';
+        if (variantId && fourIds.indexOf(variantId) !== -1) return 4;
+        if (variantId && twoIds.indexOf(variantId) !== -1) return 2;
+
+        if (picker) {
+          var fields = picker.querySelectorAll('input[type="radio"]:checked, select');
+          var found = 0;
+          for (var i = 0; i < fields.length; i++) {
+            var count = fileCountFromText(fields[i].value);
+            if (count > found) found = count;
+          }
+          if (found) return found;
+        }
+        return 1;
+      }
+
+      function showError(root, message) {
+        var error = root.querySelector('[data-upload-error]');
+        if (!error) return;
+        error.hidden = !message;
+        error.textContent = message || '';
+      }
+
+      function bind(root) {
+        if (!root || root.dataset.bound === 'true') return;
+        root.dataset.bound = 'true';
+
+        var form = document.getElementById(root.getAttribute('data-form-id'));
+        var picker = document.getElementById(root.getAttribute('data-picker-id'));
+
+        function variantKey() {
+          var idField = form && form.querySelector('[name="id"]');
+          if (idField && idField.value) return String(idField.value);
+          return String(fileCount(picker, root));
+        }
+
+        var activeVariantKey = variantKey();
+
+        function clearSlot(slot) {
+          var input = slot.querySelector('input[type="file"]');
+          var name = slot.querySelector('[data-file-name]');
+          input.value = '';
+          if (name) {
+            name.hidden = true;
+            name.textContent = '';
+          }
+        }
+
+        function sync() {
+          var nextKey = variantKey();
+          var count = fileCount(picker, root);
+          var variantChanged = nextKey !== activeVariantKey;
+          activeVariantKey = nextKey;
+          root.setAttribute('data-count', String(count));
+          if (variantChanged) showError(root, '');
+          root.querySelectorAll('[data-upload-slot]').forEach(function (slot) {
+            var input = slot.querySelector('input[type="file"]');
+            var show = Number(slot.getAttribute('data-upload-slot')) <= count;
+            if (variantChanged) clearSlot(slot);
+            slot.hidden = !show;
+            input.disabled = !show;
+          });
+        }
+
+        root.querySelectorAll('[data-upload-slot]').forEach(function (slot) {
+          var input = slot.querySelector('input[type="file"]');
+          var drop = slot.querySelector('[data-drop]');
+          var name = slot.querySelector('[data-file-name]');
+
+          input.addEventListener('change', function () {
+            var file = input.files && input.files[0];
+            if (!file) {
+              name.hidden = true;
+              name.textContent = '';
+              return;
+            }
+            if (!isImage(file) || file.size > MAX_BYTES) {
+              input.value = '';
+              name.hidden = true;
+              name.textContent = '';
+              showError(root, 'Please upload a JPG, PNG, or WEBP photo under 20 MB.');
+              return;
+            }
+            showError(root, '');
+            name.hidden = false;
+            name.textContent = file.name;
+          });
+
+          if (!drop) return;
+
+          ['dragenter', 'dragover'].forEach(function (type) {
+            drop.addEventListener(type, function (event) {
+              event.preventDefault();
+              if (!input.disabled) drop.classList.add('is-dragover');
+            });
+          });
+
+          ['dragleave', 'drop'].forEach(function (type) {
+            drop.addEventListener(type, function (event) {
+              event.preventDefault();
+              drop.classList.remove('is-dragover');
+            });
+          });
+
+          drop.addEventListener('drop', function (event) {
+            if (input.disabled) return;
+            var file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+            if (!file) return;
+            var transfer = new DataTransfer();
+            transfer.items.add(file);
+            input.files = transfer.files;
+            input.dispatchEvent(new Event('change', { bubbles: true }));
+          });
+        });
+
+        if (picker) picker.addEventListener('change', sync);
+        if (form) {
+          var idField = form.querySelector('[name="id"]');
+          if (idField) idField.addEventListener('change', sync);
+        }
+        sync();
+
+        if (!form) return;
+        form.addEventListener(
+          'submit',
+          function (event) {
+            var missing = false;
+            root.querySelectorAll('input[type="file"]').forEach(function (input) {
+              if (!input.disabled && (!input.files || !input.files.length)) missing = true;
+            });
+            if (!missing) {
+              showError(root, '');
+              return;
+            }
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            showError(root, 'Please upload the required photo(s).');
+          },
+          true
+        );
+      }
+
+      function init() {
+        document.querySelectorAll('[data-couple-photo-uploads]').forEach(bind);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+      document.addEventListener('shopify:section:load', init);
+    })();
+  </script>
+{%- endif -%}

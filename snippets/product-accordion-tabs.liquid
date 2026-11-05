@@ -1,0 +1,192 @@
+{% comment %}
+  Premium multi-section accordion for product page.
+  Renders 3 accordion tabs: Product Description, Shipping & Returns, Care Instructions.
+  Props: product_description, block, section_id, id_prefix
+{% endcomment %}
+
+{%- assign acc_prefix = id_prefix | default: 'acc' -%}
+
+<div class="product-accordion-tabs" {{ block.shopify_attributes }}>
+
+  {%- comment -%} 1. Product Description {%- endcomment -%}
+  {%- if product.description != blank -%}
+    <div class="product-accordion-tabs__item" data-accordion-item>
+      <button
+        type="button"
+        class="product-accordion-tabs__header"
+        aria-expanded="true"
+        aria-controls="{{ acc_prefix }}-description-{{ section_id }}"
+        id="{{ acc_prefix }}-btn-description-{{ section_id }}"
+      >
+        <span class="product-accordion-tabs__title">{{ block.settings.heading | default: 'Product Description' | escape }}</span>
+        <span class="product-accordion-tabs__icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="product-accordion-tabs__icon-v" d="M7 1v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </button>
+      <div
+        class="product-accordion-tabs__panel product-accordion-tabs__panel--open"
+        id="{{ acc_prefix }}-description-{{ section_id }}"
+        role="region"
+        aria-labelledby="{{ acc_prefix }}-btn-description-{{ section_id }}"
+      >
+        <div class="product-accordion-tabs__content rte">
+          {{ product_description }}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} 2. Shipping & Returns {%- endcomment -%}
+  {%- assign shipping_metafield = product.metafields.custom.shipping_returns.value | default: product.metafields.custom.shipping_returns -%}
+  {%- assign shipping_content = block.settings.shipping_content | default: blank -%}
+  {%- assign shipping_page = block.settings.shipping_page -%}
+  {%- if shipping_metafield != blank or shipping_content != blank or shipping_page.content != blank or block.settings.show_shipping -%}
+    <div class="product-accordion-tabs__item" data-accordion-item>
+      <button
+        type="button"
+        class="product-accordion-tabs__header"
+        aria-expanded="false"
+        aria-controls="{{ acc_prefix }}-shipping-{{ section_id }}"
+        id="{{ acc_prefix }}-btn-shipping-{{ section_id }}"
+      >
+        <span class="product-accordion-tabs__title">{{ block.settings.shipping_heading | default: 'Shipping & Returns' | escape }}</span>
+        <span class="product-accordion-tabs__icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="product-accordion-tabs__icon-v" d="M7 1v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </button>
+      <div
+        class="product-accordion-tabs__panel"
+        id="{{ acc_prefix }}-shipping-{{ section_id }}"
+        role="region"
+        aria-labelledby="{{ acc_prefix }}-btn-shipping-{{ section_id }}"
+      >
+        <div class="product-accordion-tabs__content rte">
+          {%- if shipping_metafield != blank -%}
+            {{ shipping_metafield | newline_to_br }}
+          {%- elsif shipping_content != blank -%}
+            {{ shipping_content }}
+          {%- elsif shipping_page.content != blank -%}
+            {{ shipping_page.content }}
+          {%- else -%}
+            <p><strong>Manufacturing Time:</strong> 3–5 business days for personalized/custom orders.</p>
+            <p><strong>Delivery Time:</strong> Orders are typically delivered within 5–7 business days after dispatch.</p>
+            <p><strong>Cancellation Policy:</strong> Orders can be cancelled within 12 hours of placing the order. Custom/personalized orders cannot be cancelled once production has started.</p>
+            <p><strong>Return & Replacement Policy:</strong> We accept returns within 7 days of delivery. Items must be unused, unwashed, and in original packaging. Replacements are provided for damaged or defective products. Refunds are processed within 5–7 business days after we receive the returned item.</p>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} 3. Care Instructions {%- endcomment -%}
+  {%- assign care_metafield = product.metafields.custom.care_instructions.value | default: product.metafields.custom.care_instructions -%}
+  {%- assign care_content = block.settings.care_content | default: blank -%}
+  {%- assign care_page = block.settings.care_page -%}
+  {%- if care_metafield != blank or care_content != blank or care_page.content != blank or block.settings.show_care -%}
+    <div class="product-accordion-tabs__item" data-accordion-item>
+      <button
+        type="button"
+        class="product-accordion-tabs__header"
+        aria-expanded="false"
+        aria-controls="{{ acc_prefix }}-care-{{ section_id }}"
+        id="{{ acc_prefix }}-btn-care-{{ section_id }}"
+      >
+        <span class="product-accordion-tabs__title">{{ block.settings.care_heading | default: 'Care Instructions' | escape }}</span>
+        <span class="product-accordion-tabs__icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path class="product-accordion-tabs__icon-v" d="M7 1v12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </button>
+      <div
+        class="product-accordion-tabs__panel"
+        id="{{ acc_prefix }}-care-{{ section_id }}"
+        role="region"
+        aria-labelledby="{{ acc_prefix }}-btn-care-{{ section_id }}"
+      >
+        <div class="product-accordion-tabs__content rte">
+          {%- if care_metafield != blank -%}
+            {{ care_metafield | newline_to_br }}
+          {%- elsif care_content != blank -%}
+            {{ care_content }}
+          {%- elsif care_page.content != blank -%}
+            {{ care_page.content }}
+          {%- else -%}
+            <p><strong>Washing/Cleaning:</strong> Wipe clean with a soft, damp cloth. Avoid harsh chemicals or abrasive cleaners.</p>
+            <p><strong>Usage Instructions:</strong> Handle with care during use. Avoid excessive force or impact.</p>
+            <p><strong>Storage Tips:</strong> Store in a cool, dry place away from direct sunlight. Keep in original packaging when not in use.</p>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
+</div>
+
+<script>
+  (function() {
+    function initContainer(container) {
+      if (container.dataset.accInit) return;
+      container.dataset.accInit = '1';
+
+      container.addEventListener('click', function(e) {
+        var header = e.target.closest('.product-accordion-tabs__header');
+        if (!header || !container.contains(header)) return;
+
+        var panel = header.nextElementSibling;
+        var isOpen = header.getAttribute('aria-expanded') === 'true';
+
+        if (isOpen) {
+          panel.style.height = panel.scrollHeight + 'px';
+          panel.offsetHeight;
+          panel.style.height = '0';
+          panel.classList.remove('product-accordion-tabs__panel--open');
+          header.setAttribute('aria-expanded', 'false');
+          panel.addEventListener('transitionend', function handler() {
+            panel.removeEventListener('transitionend', handler);
+            if (header.getAttribute('aria-expanded') === 'false') {
+              panel.style.height = '';
+            }
+          });
+        } else {
+          panel.classList.add('product-accordion-tabs__panel--open');
+          header.setAttribute('aria-expanded', 'true');
+          panel.style.height = '0';
+          panel.offsetHeight;
+          panel.style.height = panel.scrollHeight + 'px';
+          panel.addEventListener('transitionend', function handler() {
+            panel.removeEventListener('transitionend', handler);
+            if (header.getAttribute('aria-expanded') === 'true') {
+              panel.style.height = 'auto';
+            }
+          });
+        }
+
+        if (typeof window.__stickyAccordionChanged === 'function') {
+          window.__stickyAccordionChanged();
+        }
+      });
+
+      container.querySelectorAll('.product-accordion-tabs__panel--open').forEach(function(panel) {
+        panel.style.height = 'auto';
+      });
+    }
+
+    function initAll() {
+      document.querySelectorAll('.product-accordion-tabs').forEach(initContainer);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAll);
+    } else {
+      initAll();
+    }
+  })();
+</script>

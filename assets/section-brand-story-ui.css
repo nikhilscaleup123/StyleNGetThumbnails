@@ -1,0 +1,46 @@
+/* =========================================================
+   Homepage Brand Story (Image with text)
+   Mobile only — compact overlay, same lifestyle image.
+   Scoped via .brand-story-ui (set in image-with-text.liquid).
+   ========================================================= */
+
+/* One-sided section gap — matches homepage collection rhythm */
+.brand-story-ui[class*='-padding'] {
+  padding-top: 0;
+  padding-bottom: 3.2rem;
+}
+
+@media screen and (min-width: 750px) {
+  .brand-story-ui[class*='-padding'] {
+    padding-bottom: 4rem;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .brand-story-ui .image-with-text__content {
+    padding: 1.4rem 1.6rem 1.6rem;
+    height: auto;
+  }
+
+  .brand-story-ui .image-with-text--overlap .image-with-text__content {
+    width: 92%;
+    margin-top: -2.4rem;
+  }
+
+  .brand-story-ui .image-with-text__text p {
+    margin-bottom: 0;
+    font-size: 1.5rem;
+    line-height: 1.45;
+    letter-spacing: 0.01em;
+  }
+
+  .brand-story-ui__text--desktop {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .brand-story-ui__text--mobile {
+    display: none;
+  }
+}

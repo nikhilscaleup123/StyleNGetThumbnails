@@ -1,0 +1,502 @@
+.shipping-progress {
+  --shipping-progress-bg: #f9f6f2;
+  --shipping-progress-border: #e8e0d6;
+  --shipping-progress-gold: #c8a36d;
+  --shipping-progress-gold-text: #fff;
+  --shipping-progress-line: #d0d0d0;
+  --shipping-progress-current-border: #bdbdbd;
+  --shipping-progress-unlocked: #2e7d32;
+  --shipping-progress-sparkle: #c8a36d;
+  --shipping-progress-node: 3.2rem;
+  --confetti-blue: #4a90d9;
+  --confetti-green: #3cb371;
+  --confetti-orange: #f0a04b;
+  --confetti-gold: #e8c547;
+
+  margin: 0 1.5rem 1.5rem;
+  padding: 1.4rem 1.2rem 1.2rem;
+  background: var(--shipping-progress-bg);
+  border: 0.1rem solid var(--shipping-progress-border);
+  border-radius: 1rem;
+  overflow: visible;
+}
+
+cart-items.is-empty .shipping-progress,
+cart-drawer.is-empty .shipping-progress {
+  display: none;
+}
+
+.shipping-progress__header {
+  text-align: center;
+  margin-bottom: 1.4rem;
+}
+
+.shipping-progress__title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  color: rgb(var(--color-foreground));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.shipping-progress__title--success {
+  color: var(--shipping-progress-unlocked);
+}
+
+.shipping-progress__title--plain {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 600;
+  font-size: 1.3rem;
+  display: block;
+}
+
+.shipping-progress__spark {
+  color: var(--shipping-progress-sparkle);
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.shipping-progress__sub {
+  margin: 0.55rem 0 0;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  color: rgb(var(--color-foreground));
+}
+
+.shipping-progress__steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  gap: 0;
+}
+
+.shipping-progress__steps::before {
+  content: '';
+  position: absolute;
+  top: calc(var(--shipping-progress-node) / 2);
+  left: calc(100% / 6);
+  right: calc(100% / 6);
+  height: 0;
+  border-top: 0.15rem dashed var(--shipping-progress-line);
+  z-index: 0;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.shipping-progress__steps::after {
+  content: '';
+  position: absolute;
+  top: calc(var(--shipping-progress-node) / 2);
+  left: calc(100% / 6);
+  height: 0;
+  border-top: 0.15rem solid var(--shipping-progress-gold);
+  z-index: 1;
+  transform: translateY(-50%);
+  pointer-events: none;
+  width: 0;
+  transition: width 0.35s ease;
+}
+
+.shipping-progress--stage-2 .shipping-progress__steps::after {
+  width: calc(100% / 3);
+}
+
+.shipping-progress--stage-3 .shipping-progress__steps::after {
+  width: calc(100% / 3 * 2);
+}
+
+.shipping-progress__step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 0;
+  position: relative;
+  z-index: 2;
+  padding: 0 0.2rem;
+}
+
+.shipping-progress__node-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--shipping-progress-node);
+  height: var(--shipping-progress-node);
+}
+
+.shipping-progress__node {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--shipping-progress-node);
+  height: var(--shipping-progress-node);
+  border-radius: 50%;
+  box-sizing: border-box;
+  background: var(--shipping-progress-gold);
+  color: var(--shipping-progress-gold-text);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+
+.shipping-progress__step.is-current .shipping-progress__node {
+  background: #fff;
+  color: #757575;
+  border: 0.15rem solid var(--shipping-progress-current-border);
+  box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.06);
+}
+
+.shipping-progress__step.is-done.is-current .shipping-progress__node {
+  background: var(--shipping-progress-gold);
+  color: var(--shipping-progress-gold-text);
+  border-color: var(--shipping-progress-gold);
+}
+
+.shipping-progress__step--reward.is-done .shipping-progress__node {
+  background: var(--shipping-progress-unlocked);
+  border-color: var(--shipping-progress-unlocked);
+  box-shadow: 0 0 0 0.35rem rgba(46, 125, 50, 0.18);
+}
+
+.shipping-progress__num {
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.shipping-progress__icon {
+  width: 1.55rem;
+  height: 1.55rem;
+  display: block;
+}
+
+.shipping-progress__icon--check {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.shipping-progress__label {
+  display: block;
+  margin-top: 0.7rem;
+  font-size: 1.1rem;
+  line-height: 1.3;
+  color: rgb(var(--color-foreground));
+  word-break: break-word;
+  hyphens: auto;
+  max-width: 100%;
+}
+
+.shipping-progress__badge {
+  display: block;
+  margin-top: 0.15rem;
+  font-weight: 700;
+  color: var(--shipping-progress-unlocked);
+}
+
+.shipping-progress__toast {
+  position: absolute;
+  bottom: calc(100% + 0.55rem);
+  left: 50%;
+  z-index: 5;
+  transform: translateX(-50%) translateY(0.4rem) scale(0.92);
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.8rem;
+  background: var(--shipping-progress-unlocked);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  max-width: min(18rem, 70vw);
+  white-space: normal;
+  text-align: center;
+  opacity: 0;
+  pointer-events: none;
+  box-shadow: 0 0.25rem 0.8rem rgba(46, 125, 50, 0.25);
+}
+
+.shipping-progress__toast::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 0.45rem solid transparent;
+  border-top-color: var(--shipping-progress-unlocked);
+}
+
+.shipping-progress__confetti {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 0;
+  height: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.shipping-progress__piece {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 0.1rem;
+  opacity: 0;
+  background: var(--confetti-blue);
+}
+
+.shipping-progress__piece--2,
+.shipping-progress__piece--8,
+.shipping-progress__piece--14 {
+  background: var(--confetti-green);
+  width: 0.35rem;
+  height: 0.7rem;
+  border-radius: 0.2rem;
+}
+
+.shipping-progress__piece--3,
+.shipping-progress__piece--9,
+.shipping-progress__piece--15 {
+  background: var(--confetti-orange);
+  width: 0.55rem;
+  height: 0.35rem;
+}
+
+.shipping-progress__piece--4,
+.shipping-progress__piece--10,
+.shipping-progress__piece--16 {
+  background: var(--confetti-gold);
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+
+.shipping-progress__piece--5,
+.shipping-progress__piece--11,
+.shipping-progress__piece--17 {
+  background: var(--confetti-blue);
+  width: 0.7rem;
+  height: 0.25rem;
+  border-radius: 0.2rem;
+}
+
+.shipping-progress__piece--6,
+.shipping-progress__piece--12,
+.shipping-progress__piece--18 {
+  background: var(--confetti-green);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 0;
+}
+
+.shipping-progress__ray {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.2rem;
+  height: 0.15rem;
+  background: linear-gradient(90deg, var(--confetti-gold), transparent);
+  border-radius: 1rem;
+  opacity: 0;
+  transform-origin: left center;
+}
+
+.shipping-progress.is-celebrating .shipping-progress__confetti,
+.shipping-progress.is-celebrating .shipping-progress__toast {
+  opacity: 1;
+}
+
+.shipping-progress.is-celebrating .shipping-progress__toast {
+  animation: shipping-progress-toast 2s ease forwards;
+}
+
+.shipping-progress.is-celebrating .shipping-progress__piece {
+  animation: shipping-progress-burst 1.4s ease-out forwards;
+}
+
+.shipping-progress.is-celebrating .shipping-progress__ray {
+  animation: shipping-progress-ray 0.9s ease-out forwards;
+}
+
+.shipping-progress.is-celebrating .shipping-progress__step--reward .shipping-progress__node {
+  animation: shipping-progress-glow 1.6s ease-out;
+}
+
+.shipping-progress__piece--1 { --dx: 18px; --dy: -28px; --rot: 120deg; animation-delay: 0s; }
+.shipping-progress__piece--2 { --dx: -16px; --dy: -26px; --rot: -90deg; animation-delay: 0.03s; }
+.shipping-progress__piece--3 { --dx: 28px; --dy: -8px; --rot: 60deg; animation-delay: 0.05s; }
+.shipping-progress__piece--4 { --dx: -26px; --dy: -6px; --rot: -40deg; animation-delay: 0.02s; }
+.shipping-progress__piece--5 { --dx: 22px; --dy: 18px; --rot: 150deg; animation-delay: 0.07s; }
+.shipping-progress__piece--6 { --dx: -20px; --dy: 16px; --rot: -130deg; animation-delay: 0.04s; }
+.shipping-progress__piece--7 { --dx: 8px; --dy: -34px; --rot: 20deg; animation-delay: 0.06s; }
+.shipping-progress__piece--8 { --dx: -8px; --dy: -32px; --rot: -20deg; animation-delay: 0.08s; }
+.shipping-progress__piece--9 { --dx: 34px; --dy: 4px; --rot: 80deg; animation-delay: 0.1s; }
+.shipping-progress__piece--10 { --dx: -32px; --dy: 2px; --rot: -70deg; animation-delay: 0.09s; }
+.shipping-progress__piece--11 { --dx: 14px; --dy: 28px; --rot: 200deg; animation-delay: 0.11s; }
+.shipping-progress__piece--12 { --dx: -14px; --dy: 26px; --rot: -180deg; animation-delay: 0.05s; }
+.shipping-progress__piece--13 { --dx: 30px; --dy: -20px; --rot: 45deg; animation-delay: 0.12s; }
+.shipping-progress__piece--14 { --dx: -28px; --dy: -18px; --rot: -55deg; animation-delay: 0.13s; }
+.shipping-progress__piece--15 { --dx: 6px; --dy: 32px; --rot: 100deg; animation-delay: 0.14s; }
+.shipping-progress__piece--16 { --dx: -4px; --dy: 30px; --rot: -110deg; animation-delay: 0.1s; }
+.shipping-progress__piece--17 { --dx: 36px; --dy: -12px; --rot: 160deg; animation-delay: 0.08s; }
+.shipping-progress__piece--18 { --dx: -34px; --dy: 12px; --rot: -160deg; animation-delay: 0.15s; }
+
+.shipping-progress__ray--1 { --ray-rot: -50deg; animation-delay: 0s; }
+.shipping-progress__ray--2 { --ray-rot: -20deg; animation-delay: 0.05s; }
+.shipping-progress__ray--3 { --ray-rot: 25deg; animation-delay: 0.08s; }
+.shipping-progress__ray--4 { --ray-rot: 55deg; animation-delay: 0.03s; }
+
+@keyframes shipping-progress-burst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4) rotate(0deg);
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1) rotate(var(--rot));
+  }
+}
+
+@keyframes shipping-progress-ray {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--ray-rot)) scaleX(0.2);
+  }
+  30% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--ray-rot)) scaleX(1.4) translateX(0.6rem);
+  }
+}
+
+@keyframes shipping-progress-toast {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(0.5rem) scale(0.9);
+  }
+  15%,
+  70% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-0.3rem) scale(0.98);
+  }
+}
+
+@keyframes shipping-progress-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(46, 125, 50, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 0 0.6rem rgba(46, 125, 50, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 0.35rem rgba(46, 125, 50, 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shipping-progress.is-celebrating .shipping-progress__piece,
+  .shipping-progress.is-celebrating .shipping-progress__ray,
+  .shipping-progress.is-celebrating .shipping-progress__toast,
+  .shipping-progress.is-celebrating .shipping-progress__step--reward .shipping-progress__node {
+    animation: none;
+  }
+
+  .shipping-progress.is-celebrating .shipping-progress__toast {
+    opacity: 1;
+    transform: translateX(-50%);
+  }
+}
+
+.cart-drawer .shipping-progress {
+  margin: 0 1.2rem 1.2rem;
+  padding: 1.2rem 0.9rem 1rem;
+}
+
+.cart__items .shipping-progress {
+  margin: 0 0 2rem;
+}
+
+@media screen and (max-width: 749px) {
+  .shipping-progress {
+    --shipping-progress-node: 2.8rem;
+    margin: 0 1rem 1.2rem;
+    padding: 1.1rem 0.75rem 1.6rem;
+  }
+
+  .cart-drawer .shipping-progress {
+    margin: 0 0.8rem 1rem;
+    padding: 1rem 0.65rem 1.4rem;
+  }
+
+  .shipping-progress__title {
+    font-size: 1.2rem;
+  }
+
+  .shipping-progress__title--plain {
+    font-size: 1.15rem;
+  }
+
+  .shipping-progress__sub {
+    font-size: 1.1rem;
+  }
+
+  .shipping-progress__label {
+    font-size: 1rem;
+    margin-top: 0.55rem;
+  }
+
+  .shipping-progress__num {
+    font-size: 1.2rem;
+  }
+
+  .shipping-progress__icon {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .shipping-progress__header {
+    margin-bottom: 1.1rem;
+  }
+
+  .shipping-progress__toast {
+    font-size: 0.95rem;
+    padding: 0.4rem 0.55rem;
+    max-width: min(14rem, 62vw);
+  }
+}
+
+@media screen and (max-width: 380px) {
+  .shipping-progress {
+    --shipping-progress-node: 2.6rem;
+  }
+
+  .shipping-progress__label {
+    font-size: 0.95rem;
+  }
+
+  .shipping-progress__title {
+    font-size: 1.1rem;
+  }
+}

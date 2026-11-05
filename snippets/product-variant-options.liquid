@@ -1,0 +1,232 @@
+{% comment %}
+  Renders product variant options
+
+  Accepts:
+  - product: {Object} product object.
+  - option: {Object} current product_option object.
+  - block: {Object} block object.
+  - picker_type: {String} type of picker to dispay
+
+
+  Usage:
+  {% render 'product-variant-options',
+    product: product,
+    option: option,
+    block: block
+    picker_type: picker_type
+  %}
+{% endcomment %}
+{%- liquid
+  assign variants_available_arr = product.variants | map: 'available'
+  assign variants_option1_arr = product.variants | map: 'option1'
+  assign variants_option2_arr = product.variants | map: 'option2'
+  assign variants_option3_arr = product.variants | map: 'option3'
+  assign option_name_downcase = option.name | downcase
+  assign is_color_option = false
+  assign is_size_option = false
+
+  if option_name_downcase contains 'color' or option_name_downcase contains 'colour'
+    assign is_color_option = true
+  endif
+
+  if option_name_downcase == 'size'
+    assign is_size_option = true
+  endif
+
+  assign product_form_id = 'product-form-' | append: section.id
+-%}
+
+{%- for value in option.values -%}
+  {%- liquid
+    assign option_disabled = true
+
+    for option1_name in variants_option1_arr
+      case option.position
+        when 1
+          if variants_option1_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+            assign option_disabled = false
+          endif
+        when 2
+          if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+            assign option_disabled = false
+          endif
+        when 3
+          if option1_name == product.selected_or_first_available_variant.option1 and variants_option2_arr[forloop.index0] == product.selected_or_first_available_variant.option2 and variants_option3_arr[forloop.index0] == value and variants_available_arr[forloop.index0]
+            assign option_disabled = false
+          endif
+      endcase
+    endfor
+
+    assign swatch_focal_point = null
+    if value.swatch.image
+      assign image_url = value.swatch.image | image_url: width: 120
+      assign swatch_value = 'url(' | append: image_url | append: ')'
+      assign swatch_focal_point = value.swatch.image.presentation.focal_point
+    elsif value.swatch.color
+      assign swatch_value = 'rgb(' | append: value.swatch.color.rgb | append: ')'
+    elsif is_color_option
+      assign normalized_color_value = value | handle
+
+      case normalized_color_value
+        when 'black'
+          assign swatch_value = '#000000'
+        when 'white'
+          assign swatch_value = '#ffffff'
+        when 'red'
+          assign swatch_value = '#d32f2f'
+        when 'navy', 'navy-blue'
+          assign swatch_value = '#1f2a44'
+        when 'blue'
+          assign swatch_value = '#1e88e5'
+        when 'sky-blue'
+          assign swatch_value = '#87ceeb'
+        when 'green'
+          assign swatch_value = '#2e7d32'
+        when 'olive'
+          assign swatch_value = '#708238'
+        when 'yellow'
+          assign swatch_value = '#fdd835'
+        when 'orange'
+          assign swatch_value = '#fb8c00'
+        when 'pink'
+          assign swatch_value = '#ec407a'
+        when 'purple'
+          assign swatch_value = '#8e24aa'
+        when 'brown'
+          assign swatch_value = '#8d6e63'
+        when 'beige'
+          assign swatch_value = '#d6c1a3'
+        when 'cream'
+          assign swatch_value = '#f5f1de'
+        when 'gray', 'grey'
+          assign swatch_value = '#9e9e9e'
+        when 'silver'
+          assign swatch_value = '#c0c0c0'
+        when 'gold'
+          assign swatch_value = '#d4af37'
+        when 'maroon'
+          assign swatch_value = '#800000'
+        when 'multicolor', 'multi-color'
+          assign swatch_value = 'linear-gradient(135deg, #ff5252 0%, #ffd54f 35%, #66bb6a 65%, #42a5f5 100%)'
+        else
+          assign swatch_value = null
+      endcase
+    else
+      assign swatch_value = null
+    endif
+
+    assign size_display_value = value
+    if is_size_option
+      assign normalized_size_value = value | handle
+
+      case normalized_size_value
+        when 'extra-small', 'x-small', 'xs'
+          assign size_display_value = 'XS'
+        when 'small', 's'
+          assign size_display_value = 'S'
+        when 'medium', 'm'
+          assign size_display_value = 'M'
+        when 'large', 'l'
+          assign size_display_value = 'L'
+        when 'extra-large', 'x-large', 'xtra-large', 'xl'
+          assign size_display_value = 'XL'
+        when '2xl', 'xxl', '2-x-l', '2xtra-large'
+          assign size_display_value = '2XL'
+        when '3xl', 'xxxl', '3-x-l', '3xtra-large'
+          assign size_display_value = '3XL'
+      endcase
+    endif
+  -%}
+
+  {%- capture input_id -%}
+    {{ section.id }}-{{ option.position }}-{{ forloop.index0 -}}
+  {%- endcapture -%}
+
+  {%- capture label_unavailable -%}
+    <span class="visually-hidden label-unavailable">
+      {{- 'products.product.variant_sold_out_or_unavailable' | t -}}
+    </span>
+  {%- endcapture -%}
+
+  {%- if picker_type == 'swatch' -%}
+    {% liquid
+      assign checked = false
+      if option.selected_value == value
+        assign checked = true
+      endif
+    %}
+    {%- capture help_text -%}
+      <span class="visually-hidden">{{ value | escape }}</span>
+      {{ label_unavailable }}
+    {%- endcapture -%}
+    {% render 'swatch-input', id: input_id, name: option.name, value: value, swatch: value.swatch, swatch_value: swatch_value, swatch_focal_point: swatch_focal_point, product_form_id: product_form_id, checked: checked, visually_disabled: option_disabled, shape: block.settings.swatch_shape, help_text: help_text %}
+  {%- elsif picker_type == 'button' -%}
+    <input
+      type="radio"
+      id="{{ input_id }}"
+      name="{{ option.name }}"
+      value="{{ value | escape }}"
+      form="{{ product_form_id }}"
+      {% if option.selected_value == value %}
+        checked
+      {% endif %}
+      {% if option_disabled %}
+        class="disabled"
+      {% endif %}
+    >
+    <label for="{{ input_id }}">
+      {%- if is_size_option -%}
+        {{- size_display_value -}}
+      {%- else -%}
+        {{- value -}}
+      {%- endif -%}
+      {{ label_unavailable }}
+    </label>
+  {%- elsif picker_type == 'dropdown' or picker_type == 'swatch_dropdown' -%}
+    <option
+      value="{{ value | escape }}"
+      {% if option.selected_value == value %}
+        selected="selected"
+      {% endif %}
+      {% if swatch_value and picker_type == 'swatch_dropdown' %}
+        data-option-swatch-value="{{ swatch_value }}"
+        {% if swatch_focal_point %}
+          data-option-swatch-focal-point="{{ swatch_focal_point }}"
+        {% endif %}
+      {% endif %}
+    >
+      {% if option_disabled -%}
+        {{- 'products.product.value_unavailable' | t: option_value: value -}}
+      {%- else -%}
+        {{- value -}}
+      {%- endif %}
+    </option>
+  {%- endif -%}
+{%- endfor -%}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: |-
+    {%
+          render 'swatch-input',
+          id: input_id,
+          name: option.name,
+          value: value | escape,
+          swatch: value.swatch,
+          swatch_value: swatch_value,
+          swatch_focal_point: swatch_focal_point,
+          product_form_id: product_form_id,
+          checked: checked,
+          visually_disabled: option_disabled,
+          shape: block.settings.swatch_shape,
+          help_text: help_text
+        %}
+  to: "{% render 'swatch-input', id: input_id, name: option.name, value: value, swatch:
+    value.swatch, swatch_value: swatch_value, swatch_focal_point: swatch_focal_point,
+    product_form_id: product_form_id, checked: checked, visually_disabled: option_disabled,
+    shape: block.settings.swatch_shape, help_text: help_text %}"
+  position: 5393..5703
+{% endcomment %}

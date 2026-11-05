@@ -1,0 +1,141 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "179240942886b1fd7d": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_cards_carousel_gGUrpE": {
+          "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "show_sample_reviews": true,
+            "reviews_selection": "all",
+            "products": [],
+            "filter_pinned": false,
+            "filter_featured": false,
+            "filter_custom_tags": "",
+            "star_rating": "all",
+            "show_review_media": true,
+            "display_order": "media_first",
+            "no_image_fallback": "review_text_only",
+            "max_reviews": 20,
+            "review_length": "medium",
+            "text_size": "medium",
+            "image_ratio": "1.33",
+            "reviews_shown": 4,
+            "show_reviewer_name": true,
+            "show_product_name": true,
+            "hide_arrows_mobile": true,
+            "arrows_position": "sides",
+            "max_width": 1100,
+            "corner_styling": "round",
+            "header_text_color": "#000000",
+            "text_color": "#000000",
+            "card_color": "#eadddd",
+            "stars_color": "",
+            "arrows_color": "#000000",
+            "transition_speed": 2,
+            "header_text": "Loved by Our Customers 💖",
+            "show_average_rating": true,
+            "rating_display": "default"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_cards_carousel_gGUrpE"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "1792409414bf82b179": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "1792409097f2a21d7a": {
+      "type": "apps",
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "text_k4mW78": {
+          "type": "text",
+          "settings": {
+            "heading": "",
+            "subtext": "<p>Contact Number:  9660045581</p><p>EMAIL: support@stylenget.com</p>"
+          }
+        },
+        "link_list_kmwCzC": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Our Policy",
+            "menu": "footer-policy"
+          }
+        },
+        "link_list_VQcACc": {
+          "type": "link_list",
+          "settings": {
+            "heading": "Contact US",
+            "menu": "footer-contactus"
+          }
+        },
+        "image_RG6txq": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/100_secure_payment_1.png",
+            "image_width": 240,
+            "alignment": ""
+          }
+        },
+        "brand_information_7e8qpq": {
+          "type": "brand_information",
+          "disabled": true,
+          "settings": {
+            "show_social": true
+          }
+        }
+      },
+      "block_order": [
+        "text_k4mW78",
+        "link_list_kmwCzC",
+        "link_list_VQcACc",
+        "image_RG6txq",
+        "brand_information_7e8qpq"
+      ],
+      "settings": {
+        "color_scheme": "scheme-3",
+        "newsletter_enable": false,
+        "newsletter_heading": "Subscribe to our emails",
+        "enable_follow_on_shop": true,
+        "show_social": true,
+        "enable_country_selector": true,
+        "enable_language_selector": true,
+        "payment_enable": true,
+        "show_policy": true,
+        "margin_top": 0,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    }
+  },
+  "order": [
+    "179240942886b1fd7d",
+    "1792409414bf82b179",
+    "1792409097f2a21d7a",
+    "footer"
+  ]
+}

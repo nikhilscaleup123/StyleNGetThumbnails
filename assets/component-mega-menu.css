@@ -1,0 +1,370 @@
+/* =========================================================
+   Mega Menu — premium, dynamic product list (any count)
+   Left list scrolls; promo images stay fixed.
+   ========================================================= */
+
+header-menu > details.mega-menu {
+  position: static;
+}
+
+.mega-menu__content {
+  --mega-primary: #111111;
+  --mega-secondary: #666666;
+  --mega-border: #ececec;
+  --mega-bg: #ffffff;
+  --mega-radius: 1.2rem; /* 12px */
+  --mega-transition: 0.25s ease;
+  --mega-panel-height: min(36rem, calc(100vh - var(--header-bottom-position-desktop, 20rem) - 6rem));
+  --mega-row-height: 5rem; /* 50px — within 48–52px */
+
+  background-color: var(--mega-bg);
+  border: 0.1rem solid var(--mega-border);
+  border-top: none;
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0 0 var(--mega-radius) var(--mega-radius);
+  left: 0;
+  overflow: hidden; /* panel itself does not scroll */
+  padding-bottom: 0;
+  padding-top: 0;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 3;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+.mega-menu__content.global-settings-popup {
+  background-color: #ffffff;
+  border-color: #ececec;
+  border-width: 0.1rem;
+  border-style: solid;
+  border-top: none;
+  border-left: 0;
+  border-right: 0;
+  border-radius: 0 0 1.2rem 1.2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  z-index: 3;
+}
+
+.mega-menu__content::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  height: 20px;
+}
+
+.js details.mega-menu:not([open]) .mega-menu__content {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-0.8rem);
+  transition: opacity var(--mega-transition), transform var(--mega-transition);
+}
+
+.mega-menu[open] .mega-menu__content {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition: opacity var(--mega-transition), transform var(--mega-transition);
+}
+
+.shopify-section-header-sticky .mega-menu__content {
+  max-height: calc(100vh - var(--header-bottom-position-desktop, 20rem) - 4rem);
+}
+
+.header-wrapper--border-bottom .mega-menu__content {
+  border-top: 0;
+}
+
+/* ---------- Inner: fixed balanced height, 59% / 41% ---------- */
+.mega-menu__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 59%) minmax(0, 41%);
+  align-items: stretch;
+  gap: 3.2rem;
+  padding: 2.4rem 0;
+  height: var(--mega-panel-height);
+  max-height: var(--mega-panel-height);
+  min-height: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- Left: product list (scrollable, dynamic) ---------- */
+.mega-menu__columns {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 1.6rem;
+  align-items: stretch;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  padding: 0;
+}
+
+.mega-menu__column,
+.mega-menu__column--flat {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-width: none;
+  width: 100%;
+  min-height: 0;
+  height: 100%;
+  flex: 1 1 auto;
+}
+
+.mega-menu__column-title {
+  flex-shrink: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  margin: 0 0 1.2rem;
+  color: var(--mega-secondary);
+}
+
+.mega-menu__column-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0.8rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(17, 17, 17, 0.2) transparent;
+}
+
+.mega-menu__column-list::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+.mega-menu__column-list::-webkit-scrollbar-thumb {
+  background: rgba(17, 17, 17, 0.18);
+  border-radius: 999px;
+}
+
+.mega-menu__column-list > li {
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.mega-menu__column-list > li:not(:last-child) .mega-menu__link {
+  border-bottom: 0.1rem solid var(--mega-border);
+}
+
+.mega-menu__link {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  box-sizing: border-box;
+  min-height: var(--mega-row-height);
+  height: auto;
+  padding: 1.2rem 1.2rem 1.2rem 0.4rem;
+  margin: 0;
+  border-radius: 0.8rem;
+  text-decoration: none;
+  color: var(--mega-primary);
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  line-height: 1.4;
+  transition: background-color var(--mega-transition), color var(--mega-transition);
+  word-break: normal;
+  overflow-wrap: break-word;
+  min-width: 0;
+  width: 100%;
+}
+
+.mega-menu__link-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  transition: color var(--mega-transition);
+}
+
+.mega-menu__link:hover,
+.mega-menu__link--active {
+  color: var(--mega-primary);
+  background-color: rgba(17, 17, 17, 0.035);
+  text-decoration: none;
+}
+
+.mega-menu__link:hover .mega-menu__link-text,
+.mega-menu__link--active .mega-menu__link-text {
+  text-decoration: none;
+  color: var(--mega-primary);
+}
+
+.mega-menu__icon {
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.9;
+  transition: opacity var(--mega-transition);
+}
+
+.mega-menu__link:hover .mega-menu__icon {
+  opacity: 1;
+}
+
+.mega-menu__icon svg {
+  width: 100%;
+  height: 100%;
+  stroke: currentColor;
+  fill: none;
+}
+
+/* Nested multi-column menus: each column list scrolls independently */
+.mega-menu__columns:has(> .mega-menu__column:not(.mega-menu__column--flat)) {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.mega-menu__columns:has(> .mega-menu__column:not(.mega-menu__column--flat)) .mega-menu__column {
+  flex: 1 1 16rem;
+  max-width: 28rem;
+  min-width: min(100%, 16rem);
+  height: auto;
+  max-height: 100%;
+}
+
+/* With promo tiles, stack nested columns so text is never crushed */
+.mega-menu__inner:has(.mega-menu__promo) .mega-menu__columns:has(> .mega-menu__column:not(.mega-menu__column--flat)) {
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.mega-menu__inner:has(.mega-menu__promo) .mega-menu__columns:has(> .mega-menu__column:not(.mega-menu__column--flat)) .mega-menu__column {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+}
+
+.mega-menu__columns:has(> .mega-menu__column:not(.mega-menu__column--flat)) .mega-menu__column-list {
+  overflow: visible;
+  flex: 0 1 auto;
+}
+
+/* ---------- Right: promo images (fixed, never scroll) ---------- */
+.mega-menu__promos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 1.6rem;
+  align-content: stretch;
+  align-items: stretch;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.mega-menu__promo {
+  position: relative;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  border-radius: 1.2rem; /* 12px */
+  overflow: hidden;
+  background: rgba(17, 17, 17, 0.04);
+  border: 0.1rem solid var(--mega-border);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  transition: transform var(--mega-transition), box-shadow var(--mega-transition);
+}
+
+.mega-menu__promo:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+
+.mega-menu__promo--empty {
+  min-height: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: linear-gradient(160deg, rgba(17, 17, 17, 0.08), rgba(17, 17, 17, 0.03));
+}
+
+.mega-menu__promo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+.mega-menu__promo:hover .mega-menu__promo-image {
+  transform: scale(1.03);
+}
+
+.mega-menu__promo-text {
+  position: absolute;
+  left: 50%;
+  bottom: 1.6rem;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  white-space: nowrap;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+
+/* Single promo: still fill the right column */
+.mega-menu__promos:has(> .mega-menu__promo:only-child) {
+  grid-template-columns: 1fr;
+}
+
+/* No promos: left list uses full width */
+.mega-menu__inner:not(:has(.mega-menu__promo)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.mega-menu__inner:not(:has(.mega-menu__promo)) .mega-menu__promos {
+  display: none;
+}
+
+@media screen and (max-width: 1199px) {
+  .mega-menu__inner {
+    gap: 2.4rem;
+    padding: 2rem 0;
+    --mega-panel-height: min(32rem, calc(100vh - var(--header-bottom-position-desktop, 20rem) - 6rem));
+  }
+
+  .mega-menu__promos {
+    gap: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .mega-menu__content {
+    display: none;
+  }
+}

@@ -1,0 +1,447 @@
+/* =========================================================
+   Header pill search — desktop inline + mobile modal
+   ========================================================= */
+
+.header__search {
+  line-height: normal;
+  align-items: center;
+}
+
+.header-search-inline {
+  display: none;
+  position: relative;
+  align-self: center;
+  line-height: normal;
+}
+
+.header-search-inline__form,
+.header-search-inline__search {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+.header-search-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 24rem; /* 240px — within 220–260 */
+  max-width: 100%;
+  height: 4.4rem; /* 44px */
+  min-height: 4.4rem;
+  padding: 0 1.5rem; /* ~15px */
+  box-sizing: border-box;
+  background-color: #ffffff;
+  border: 0.1rem solid #eaeaea;
+  border-radius: 999px;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.header-search-pill:hover {
+  border-color: #d0d0d0;
+}
+
+.header-search-pill:focus-within {
+  border-color: rgb(var(--color-button));
+  box-shadow: 0 0 0 0.1rem rgb(var(--color-button));
+}
+
+.header-search-pill__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.8rem;
+  height: 1.8rem;
+  color: #666666;
+  line-height: 0;
+  pointer-events: none;
+}
+
+.header-search-pill__icon .icon {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.header-search-pill__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  box-shadow: none;
+  font-family: var(--font-body-family);
+  font-size: 1.4rem;
+  font-weight: 400;
+  line-height: 1.4;
+  color: #111111;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.header-search-pill__input::placeholder {
+  color: #888888;
+  opacity: 1;
+}
+
+.header-search-pill__input::-webkit-search-decoration,
+.header-search-pill__input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.header-search-pill__reset {
+  position: relative;
+  right: auto;
+  top: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: #666666;
+  cursor: pointer;
+  flex-shrink: 0;
+  box-shadow: none;
+}
+
+.header-search-pill__reset::after {
+  display: none !important;
+  content: none !important;
+}
+
+.header-search-pill__reset.hidden {
+  display: none;
+}
+
+.header-search-pill__reset .icon {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.header-search-pill__reset:hover {
+  color: #111111;
+}
+
+/* Predictive dropdown under pill — fixed layout (input unchanged) */
+.header-search-inline .predictive-search--header {
+  left: 0;
+  right: auto;
+  width: 56rem; /* 560px */
+  max-width: min(56rem, calc(100vw - 3.2rem));
+  min-width: 0;
+  top: calc(100% + 0.8rem);
+  border-radius: 1.4rem; /* 14px */
+  border: 0.1rem solid #eaeaea;
+  border-top: 0.1rem solid #eaeaea;
+  background-color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: min(70vh, 52rem);
+  z-index: 5;
+  -webkit-overflow-scrolling: touch;
+}
+
+/*
+  Keep the panel and spinner hidden on first paint (sync CSS), before
+  deferred component-predictive-search.css loads. Never show until JS
+  sets [open] / [loading] after real user typing.
+*/
+.header-search-inline .predictive-search--header,
+.search-modal .predictive-search--header {
+  display: none;
+}
+
+.header-search-inline predictive-search[open] .predictive-search--header,
+.header-search-inline predictive-search[loading] .predictive-search--header,
+.search-modal predictive-search[open] .predictive-search--header,
+.search-modal predictive-search[loading] .predictive-search--header {
+  display: block;
+}
+
+.header-search-inline .predictive-search__loading-state,
+.search-modal .predictive-search__loading-state {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 1.2rem;
+  min-height: 4.8rem;
+  max-height: 6rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.header-search-inline predictive-search[loading] .predictive-search__loading-state,
+.search-modal predictive-search[loading] .predictive-search__loading-state {
+  display: flex;
+}
+
+.header-search-inline .predictive-search__loading-state .spinner,
+.header-search-inline .predictive-search__loading-state svg,
+.search-modal .predictive-search__loading-state .spinner,
+.search-modal .predictive-search__loading-state svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  max-width: 1.5rem;
+  max-height: 1.5rem;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.header-search-inline predictive-search {
+  position: relative;
+  display: block;
+}
+
+/* Two-column layout: Suggestions 35% / Products 65% */
+.header-search-inline .predictive-search__results-groups-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0;
+  padding: 0.8rem 0 1.2rem;
+  border-bottom: 0.1rem solid #eaeaea;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.header-search-inline .predictive-search__result-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-width: 0;
+}
+
+.header-search-inline .predictive-search__result-group:first-child {
+  flex: 0 0 35%;
+  max-width: 35%;
+  width: 35%;
+}
+
+.header-search-inline .predictive-search__result-group:last-child,
+.header-search-inline .predictive-search__result-group:nth-child(2) {
+  flex: 0 0 65%;
+  max-width: 65%;
+  width: 65%;
+}
+
+.header-search-inline .predictive-search__results-groups-wrapper--no-products .predictive-search__result-group:first-child,
+.header-search-inline .predictive-search__result-group:only-child {
+  flex: 1 1 100%;
+  max-width: 100%;
+  width: 100%;
+}
+
+.header-search-inline .predictive-search__heading {
+  margin: 0 1.6rem;
+  padding: 1.2rem 0 0.8rem;
+  border-bottom: 0.1rem solid #eaeaea;
+  color: #666666;
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.header-search-inline .predictive-search__results-list {
+  margin: 0;
+  padding: 0.4rem 0;
+}
+
+.header-search-inline .predictive-search__item {
+  padding: 1rem 1.6rem;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  transition: background-color 0.2s ease;
+}
+
+.header-search-inline .predictive-search__list-item[aria-selected='true'] > *,
+.header-search-inline .predictive-search__list-item:hover > *,
+.header-search-inline .predictive-search__item[aria-selected='true'],
+.header-search-inline .predictive-search__item:hover {
+  background-color: #f8f8f8;
+  color: #111111;
+  text-decoration: none;
+}
+
+.header-search-inline .predictive-search__list-item[aria-selected='true'] .predictive-search__item-heading,
+.header-search-inline .predictive-search__list-item:hover .predictive-search__item-heading {
+  text-decoration: none;
+}
+
+/* Suggestions: no awkward mid-word breaks */
+.header-search-inline .predictive-search__item-query-result,
+.header-search-inline .predictive-search__item--term {
+  word-break: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.4;
+}
+
+.header-search-inline .predictive-search__item--term {
+  padding: 1.2rem 1.6rem;
+}
+
+/* Product rows: image + text, vertically centered */
+.header-search-inline .predictive-search__item--link-with-thumbnail {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  grid-column-gap: 1.2rem;
+  grid-template-areas: 'product-image product-content';
+  align-items: center;
+}
+
+.header-search-inline .predictive-search__image {
+  grid-area: product-image;
+  width: 6rem; /* 60px */
+  height: 6rem;
+  max-width: 6rem;
+  max-height: 6rem;
+  object-fit: cover;
+  border-radius: 0.8rem; /* 8px */
+  background-color: #f5f5f5;
+  display: block;
+}
+
+.header-search-inline .predictive-search__item-content {
+  grid-area: product-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  min-width: 0;
+  gap: 0.4rem;
+}
+
+.header-search-inline .predictive-search__item-heading {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.35;
+  color: #111111;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.header-search-inline .predictive-search__item .price {
+  margin: 0;
+  margin-top: 0;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #666666;
+  line-height: 1.3;
+}
+
+.header-search-inline .predictive-search__item-vendor + .predictive-search__item-heading,
+.header-search-inline .predictive-search .price {
+  margin-top: 0;
+}
+
+.header-search-inline .predictive-search__search-for-button .predictive-search__item {
+  border-top: 0.1rem solid #eaeaea;
+}
+
+/* Tablet */
+@media screen and (min-width: 750px) and (max-width: 989px) {
+  .header-search-inline .predictive-search--header {
+    width: min(56rem, calc(100vw - 2.4rem));
+    min-width: 0;
+  }
+}
+
+/* Narrower desktop / prevent viewport overflow */
+@media screen and (max-width: 1199px) {
+  .header-search-inline .predictive-search--header {
+    width: min(56rem, calc(100vw - 3.2rem));
+    min-width: 0;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .header-search-inline .predictive-search--header {
+    width: calc(100vw - 2.4rem);
+    min-width: 0;
+    max-width: calc(100vw - 2.4rem);
+  }
+
+  .header-search-inline .predictive-search__results-groups-wrapper {
+    flex-direction: column;
+  }
+
+  .header-search-inline .predictive-search__result-group:first-child,
+  .header-search-inline .predictive-search__result-group:last-child,
+  .header-search-inline .predictive-search__result-group:nth-child(2) {
+    flex: 1 1 auto;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+/* Desktop: show pill, hide modal toggle icon */
+@media screen and (min-width: 990px) {
+  .header-search-inline {
+    display: block;
+  }
+
+  .header-search-details__toggle {
+    display: none !important;
+  }
+
+  .header > .header__search,
+  .header__icons .header__search {
+    align-items: center;
+  }
+
+  .header > .header__search {
+    width: auto;
+  }
+}
+
+/* Tablet: slightly narrower pill when space is tight */
+@media screen and (min-width: 990px) and (max-width: 1199px) {
+  .header-search-pill {
+    width: 22rem; /* 220px */
+    height: 4.2rem;
+    min-height: 4.2rem;
+    padding: 0 1.4rem;
+  }
+}
+
+/* Mobile: icon opens modal; hide inline pill */
+@media screen and (max-width: 989px) {
+  .header-search-inline {
+    display: none !important;
+  }
+
+  .header-search-details__toggle {
+    display: inline-flex !important;
+  }
+}
+
+/* Sticky compact: keep pill usable, don't force icon sizing on search wrapper */
+@media screen and (min-width: 990px) {
+  .scrolled-past-header .header > .header__search .header-search-pill {
+    height: 4rem;
+    min-height: 4rem;
+    width: 22rem;
+  }
+
+  .scrolled-past-header .header > .header__search {
+    width: auto;
+    height: auto;
+  }
+}
